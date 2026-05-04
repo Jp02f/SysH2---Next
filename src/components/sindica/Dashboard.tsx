@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Header from '../Header';
 import { Users, UserPlus, FileText, CheckCircle, XCircle, Trash2 } from 'lucide-react';
+import LogoIcon from '../logoicon';
 
 export default function DashboardSindica() {
   const [view, setView] = useState('home');
@@ -24,7 +25,7 @@ export default function DashboardSindica() {
               </div>
               <div>
                 <h1 className="text-4xl font-black text-[#4B0082]">Olá, Síndico(a)!</h1>
-                <p className="text-zinc-500 font-medium text-lg">Navegue pelos módulos para gerenciar o CDHU H2.</p>
+                <p className="text-[#3A1067] font-medium text-lg">Navegue pelos módulos abaixo para acessar suas funcionalidades.</p>
               </div>
             </div>
 
@@ -33,7 +34,7 @@ export default function DashboardSindica() {
                 <UserPlus size={56} className="text-[#4B0082] group-hover:scale-110 transition-transform" />
                 <div>
                   <h2 className="text-2xl font-bold text-[#4B0082]">Gerenciar Porteiros</h2>
-                  <p className="text-zinc-500">Controle o acesso dos funcionários da portaria.</p>
+                  <p className="text-[#3A1067]">Cadastre, edite ou inative os porteiros do condomínio.</p>
                 </div>
               </button>
 
@@ -41,7 +42,15 @@ export default function DashboardSindica() {
                 <Users size={56} className="text-[#4B0082] group-hover:scale-110 transition-transform" />
                 <div>
                   <h2 className="text-2xl font-bold text-[#4B0082]">Gerenciar Moradores</h2>
-                  <p className="text-zinc-500">Valide cadastros e veja a lista de moradores ativos.</p>
+                  <p className="text-[#3A1067]">Gerencie perfis e valide o cadastro de novos moradores.</p>
+                </div>
+              </button>
+
+              <button className="group flex items-center gap-8 bg-white p-10 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-zinc-100 text-left">
+                <UserPlus size={56} className="text-[#4B0082] group-hover:scale-110 transition-transform" />
+                <div>
+                  <h2 className="text-2xl font-bold text-[#4B0082]">Relatórios</h2>
+                  <p className="text-[#3A1067]">Acesse todo o registro de encomendas.</p>
                 </div>
               </button>
             </div>
@@ -77,6 +86,13 @@ export default function DashboardSindica() {
           </div>
         )}
       </main>
+        {/* Marca d'água no fundo */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            {/* O left-[50%] empurra o ícone para a metade direita da tela */}
+            <div className="absolute top-1/2 left-[50%] -translate-y-1/2 opacity-[0.10]">
+            <LogoIcon className="w-[600px] h-auto" />
+        </div>
+</div>
     </div>
   );
 }

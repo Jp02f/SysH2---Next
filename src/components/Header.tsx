@@ -1,13 +1,13 @@
 'use client'
 import { Bell, Moon, UserCircle, Power } from 'lucide-react';
+import Logo from './logo';
 
 export default function Header() {
   return (
     <header className="w-full bg-white border-b border-zinc-100 px-8 py-4 flex justify-between items-center shadow-sm">
       <div className="flex items-center gap-2">
-        <div className="bg-[#4B0082] p-1.5 rounded-lg text-white font-black text-xl">SYS</div>
-        <span className="text-[#4B0082] font-black text-xl">H2</span>
-      </div>
+        <Logo className="h-10 w-auto" />
+        </div>
 
       <div className="flex items-center gap-6 text-zinc-400">
         <div className="flex items-center gap-4 border-r pr-6 border-zinc-200">
