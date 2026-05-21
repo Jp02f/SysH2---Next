@@ -3,7 +3,7 @@ import Header from '../Header';
 import { UserPlus, Users, FileText, Building } from 'lucide-react';
 import LogoIcon from '../logoicon';
 
-export default function DashboardSindica() {
+export default function HomeSindica() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] flex flex-col">
       <Header />
