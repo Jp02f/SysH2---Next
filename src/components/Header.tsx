@@ -1,5 +1,5 @@
 'use client'
-import { Bell, Moon, UserCircle, Power } from 'lucide-react';
+import { Bell, MoonStar, UserCircle, Power } from 'lucide-react';
 import Logo from './logo';
 
 export default function Header() {
@@ -11,8 +11,13 @@ export default function Header() {
 
       <div className="flex items-center gap-6 text-zinc-400">
         <div className="flex items-center gap-4 border-r pr-6 border-zinc-200">
-          <button><Bell size={24} /></button>
-          <button><Moon size={24} /></button>
+          <button className="relative flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-md hover:shadow-lg transition-all text-zinc-800">
+            <Bell size={24} />
+            <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white" />
+            </button>
+          <button className="relative flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-md hover:shadow-lg transition-all text-zinc-800">
+            <MoonStar size={24} />
+            </button>
         </div>
         <div className="flex items-center gap-3">
           <div className="text-right">
