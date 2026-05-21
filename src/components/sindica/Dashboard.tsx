@@ -8,8 +8,10 @@ export default function DashboardSindica() {
     <div className="min-h-screen bg-[#F8F9FA] flex flex-col">
       <Header />
       
-      <main className="relative z-10 flex-1 w-full max-w-[1200px] mx-auto p-8">
-        <div className="animate-fadeIn">
+      <main className="absolute top-[100px] bottom-6 left-6 right-6 z-10 flex flex-col">
+
+        
+        <div className="border border-zinc-300 rounded-[2.5rem] p-10 w-full h-full flex flex-col bg-transparent">
           {/* Bloco de Boas-Vindas */}
           <div className="flex items-center gap-4 mb-10">
             <Building size={56} className="text-[#4B0082]" />

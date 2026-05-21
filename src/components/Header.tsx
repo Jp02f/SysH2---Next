@@ -20,10 +20,14 @@ export default function Header() {
             </button>
         </div>
         <div className="flex items-center gap-3">
-          <div className="text-right">
-            <p className="text-sm font-black text-zinc-800 leading-none">CLEIDE SILVA</p>
+          <UserCircle size={40} className="text-[#4B0082] flex-shrink-0" />
+          
+          <div className="flex flex-col items-center text-center">
+            <p className="text-base font-black text-zinc-800 leading-tight">CLEIDE SILVA</p>
+            <button className="text-xs font-semibold text-zinc-500 hover:text-[#4B0082] underline leading-none mt-0.5">
+              Alterar Senha
+              </button>
           </div>
-          <UserCircle size={32} className="text-[#4B0082]" />
           <Power size={24} className="text-red-500 ml-2" />
         </div>
       </div>
