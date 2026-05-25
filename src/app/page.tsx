@@ -1,4 +1,4 @@
-import GerenciarPorteiros from "@/components/sindica/GerenciarPorteiros";
+import HomeSindica from "@/components/sindica/HomeSindica";
 
 // ADICIONE ESTE BLOCO AQUI:
 export const metadata = {
@@ -7,6 +7,6 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <GerenciarPorteiros />
+    <HomeSindica />
   );
 }

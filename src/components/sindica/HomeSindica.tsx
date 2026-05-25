@@ -2,6 +2,7 @@
 import Header from '../Header';
 import { UserPlus, Users, FileText, Building } from 'lucide-react';
 import LogoIcon from '../logoicon';
+import Link from 'next/link';
 
 export default function HomeSindica() {
   return (
@@ -24,13 +25,13 @@ export default function HomeSindica() {
           {/* Grid de Botões Principais */}
           <div className="flex flex-col gap-6">
             {/* Botão 1: Porteiros */}
-            <button className="group flex items-center gap-8 bg-white/65 p-10 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-zinc-100 text-left">
+            <Link href="/gerenciarporteiros" className="group flex items-center gap-8 bg-white/65 p-10 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-zinc-100 text-left">
               <UserPlus size={56} className="text-[#4B0082] group-hover:scale-110 transition-transform" />
               <div>
                 <h2 className="text-2xl font-bold text-[#4B0082]">Gerenciar Porteiros</h2>
                 <p className="text-[#3A1067]">Cadastre, edite ou inative os porteiros do condomínio.</p>
               </div>
-            </button>
+            </Link>
 
             {/* Botão 2: Moradores */}
             <button className="group flex items-center gap-8 bg-white/65 p-10 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-zinc-100 text-left">

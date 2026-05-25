@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link';
 import { Bell, MoonStar, UserCircle, Power } from 'lucide-react';
 import Logo from './logo';
 
@@ -6,8 +7,10 @@ export default function Header() {
   return (
     <header className="w-full bg-white border-b border-zinc-100 px-8 py-4 flex justify-between items-center shadow-sm">
       <div className="flex items-center gap-2">
-        <Logo className="h-10 w-auto" />
-        </div>
+        <Link href="/" >
+          <Logo className="h-10 w-auto" />
+        </Link>
+      </div>
 
       <div className="flex items-center gap-6 text-zinc-400">
         <div className="flex items-center gap-4 border-r pr-6 border-zinc-200">
