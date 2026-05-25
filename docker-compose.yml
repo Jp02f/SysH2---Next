@@ -6,3 +6,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+      - TURBOPACK_WATCH_OPTIONS={"poll":1000}

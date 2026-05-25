@@ -1,6 +1,6 @@
 'use client'
 import Header from '../Header';
-import { UserPlus, Trash2, Edit2, User, Mail, Phone } from 'lucide-react';
+import { UserPlus, CirclePause, Edit2, User, Mail, Phone } from 'lucide-react';
 
 export default function GerenciarPorteiros() {
   return (
@@ -11,7 +11,7 @@ export default function GerenciarPorteiros() {
       <main className="absolute top-[100px] bottom-6 left-6 right-6 z-10 flex flex-col">
         
         {/* Moldura externa idêntica */}
-        <div className="border border-zinc-300 rounded-[2.5rem] p-10 w-full h-full flex flex-col bg-transparent gap-8">
+        <div className="border border-zinc-300 rounded-[15px] p-10 w-full h-full flex flex-col bg-transparent gap-8">
           
           {/* Cabeçalho da Página */}
           <div className="flex items-center gap-4">
@@ -26,9 +26,9 @@ export default function GerenciarPorteiros() {
           <div className="flex-1 flex gap-8 min-h-0 w-full items-stretch">
             
             {/* LADO ESQUERDO: Formulário de Cadastro */}
-            <div className="w-[38%] bg-[#EBEBEB] rounded-[2.5rem] p-8 flex flex-col justify-between shadow-sm relative">
+            <div className="w-[38%] bg-[#EBEBEB] rounded-[15px] p-8 flex flex-col gap-6 shadow-sm relative h-fit">
               <div>
-                <h2 className="text-3xl font-black text-[#4B0082] mb-8 text-center">
+                <h2 className="text-3xl font-black text-[#4B0082] mb-8 text-left">
                   Cadastre um porteiro
                 </h2>
                 
@@ -65,17 +65,26 @@ export default function GerenciarPorteiros() {
 
               {/* Botão de Cadastrar na base */}
               <div className="flex justify-end mt-6">
-                <button className="bg-[#4B0082] text-white font-bold px-8 py-3 rounded-full hover:bg-[#3A1067] transition-colors shadow-md">
+                <button className="bg-[#4B0082] text-white font-bold px-6 py-3 rounded-full hover:bg-[#3A1067] transition-colors shadow-md">
                   CADASTRAR
                 </button>
               </div>
             </div>
 
             {/* LADO DIREITO: Tabela de Porteiros com Scroll Interno */}
-            <div className="flex-1 bg-white border border-zinc-200 rounded-[2.5rem] shadow-sm overflow-hidden flex flex-col">
+            <div className="flex-1 bg-whiteborder border-zinc-200 rounded-[15px] shadow-sm overflow-hidden flex flex-col relative"
+              style={{
+                backgroundImage: "url('/logoicon.svg')",
+                backgroundSize: "900px",
+                backgroundPosition: "center", 
+              }}
+            >
+            
+              {/* Overlay para não atrapalhar a leitura */}
+              <div className="absolute inset-0 bg-white/90" />
               
               {/* Header Fixo da Tabela */}
-              <div className="bg-[#4B0082] text-white font-bold py-4 px-6 grid grid-cols-4 text-center rounded-t-[2.3rem]">
+              <div className="relative z-10 bg-[#4B0082] text-white font-bold py-2 px-6 grid grid-cols-4 text-center rounded-t-[15px]">
                 <div>Porteiro</div>
                 <div>Email</div>
                 <div>Telefone</div>
@@ -83,19 +92,19 @@ export default function GerenciarPorteiros() {
               </div>
 
               {/* Corpo da Tabela com Scroll */}
-              <div className="flex-1 overflow-y-auto divide-y divide-zinc-100">
+              <div className="relative z-10 flex-1 overflow-y-auto divide-y divide-zinc-100">
                 {/* Linhas de exemplo repetidas para simular o layout */}
                 {Array.from({ length: 8 }).map((_, index) => (
                   <div key={index} className="grid grid-cols-4 py-4 px-6 text-zinc-700 text-center items-center hover:bg-zinc-50 transition-colors">
                     <div className="truncate font-semibold">José Vieira da Silva</div>
-                    <div className="truncate text-zinc-500">josevieira@gmail.com</div>
-                    <div className="font-medium">11975681643</div>
+                    <div className="truncate font-semibold">josevieira@gmail.com</div>
+                    <div className="truncate font-semibold">11975681643</div>
                     <div className="flex justify-center gap-4 text-[#4B0082]">
                       <button className="hover:text-zinc-900 transition-colors">
                         <Edit2 size={18} />
                       </button>
                       <button className="hover:text-red-500 transition-colors">
-                        <Trash2 size={18} />
+                        <CirclePause size={22} />
                       </button>
                     </div>
                   </div>
