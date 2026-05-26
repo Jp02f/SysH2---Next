@@ -1,6 +1,6 @@
 'use client'
 import Header from '../Header';
-import { UserPlus, CirclePause, Edit2, User, Mail, Phone } from 'lucide-react';
+import { UserPlus, CirclePause, CirclePlay, CircleX, User, Mail, Phone } from 'lucide-react';
 
 export default function GerenciarPorteiros() {
   return (
@@ -72,7 +72,7 @@ export default function GerenciarPorteiros() {
             </div>
 
             {/* LADO DIREITO: Tabela de Porteiros com Scroll Interno */}
-            <div className="flex-1 bg-whiteborder border-zinc-200 rounded-[15px] shadow-sm overflow-hidden flex flex-col relative"
+            <div className="flex-1 bg-whiteborder border-zinc-300 rounded-[15px] shadow-sm overflow-hidden flex flex-col relative"
               style={{
                 backgroundImage: "url('/logoicon.svg')",
                 backgroundSize: "900px",
@@ -100,11 +100,14 @@ export default function GerenciarPorteiros() {
                     <div className="truncate font-semibold">josevieira@gmail.com</div>
                     <div className="truncate font-semibold">11975681643</div>
                     <div className="flex justify-center gap-4 text-[#4B0082]">
-                      <button className="hover:text-zinc-900 transition-colors">
-                        <Edit2 size={18} />
+                      <button className="hover:text-green-500 transition-colors">
+                        <CirclePlay size={25} />
+                      </button>
+                      <button className="hover:text-black transition-colors">
+                        <CirclePause size={25} />
                       </button>
                       <button className="hover:text-red-500 transition-colors">
-                        <CirclePause size={22} />
+                        <CircleX size={25} />
                       </button>
                     </div>
                   </div>

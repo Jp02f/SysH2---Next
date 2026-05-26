@@ -24,3 +24,28 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ==================================================== */
+/* PERSONALIZAÇÃO DA BARRA DE ROLAGEM (SCROLLBAR)       */
+/* ==================================================== */
+
+/* Deixa a barra mais fina */
+::-webkit-scrollbar {
+  width: 8px; 
+}
+
+/* Fundo da barra invisível para não cobrir o canto roxo */
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+/* Estiliza a barrinha cinza que o usuário puxa */
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8; 
+  border-radius: 10px; 
+}
+
+/* Deixa a barrinha um pouco mais escura ao passar o mouse */
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa; 
+}
