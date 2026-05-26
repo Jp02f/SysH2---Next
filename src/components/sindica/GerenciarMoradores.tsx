@@ -6,7 +6,7 @@ import { Users, CirclePause, CirclePlay, CircleX, ChevronDown } from 'lucide-rea
 function StatusBadge({ status }: { status: 'ativo' | 'inativo' | 'cancelado' }) {
   const styles = {
     ativo: 'bg-green-100 text-green-800 border border-green-300',
-    inativo: 'bg-black-100 text-black border border-zinc-300',
+    inativo: 'bg-blue-100 text-blue-800 border border-blue-300',
     cancelado: 'bg-red-100 text-red-800 border border-red-300'
   };
 
