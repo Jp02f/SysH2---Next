@@ -38,7 +38,7 @@ export default function HomeSindica() {
               <Users size={56} className="text-[#4B0082] group-hover:scale-110 transition-transform shrink-0 lg:w-14 lg:h-14 w-8 h-8" />
               <div>
                 <h2 className="text-base lg:text-2xl font-bold text-[#4B0082]">Gerenciar Moradores</h2>
-                <p className="text-[#3A1067] text-sm lg:text-base">Gerencie perfis e valide o cadastro de novos moradores.</p>
+                <p className="text-[#3A1067] text-sm lg:text-base">Gerencie os estados dos perfis dos moradores.</p>
               </div>
             </Link>
 

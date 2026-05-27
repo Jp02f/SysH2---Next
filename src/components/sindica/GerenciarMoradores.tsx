@@ -121,7 +121,7 @@ export default function GerenciarMoradores() {
             <Users size={56} className="text-[#4B0082] lg:w-14 lg:h-14 w-8 h-8" />
             <div>
               <h1 className="text-2xl lg:text-4xl font-black text-[#4B0082]">Gerenciar Moradores</h1>
-              <p className="text-[#3A1067] font-medium text-sm lg:text-lg">Aprove, inative ou cancele os acessos dos moradores</p>
+              <p className="text-[#3A1067] font-medium text-sm lg:text-lg">Ative, inative ou cancele os acessos dos moradores</p>
             </div>
           </div>
 
