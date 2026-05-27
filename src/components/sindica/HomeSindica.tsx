@@ -15,9 +15,9 @@ export default function HomeSindica() {
         <div className="border border-zinc-300 rounded-[2.5rem] p-4 lg:p-10 w-full h-full flex flex-col bg-transparent">
           {/* Bloco de Boas-Vindas */}
           <div className="flex items-center gap-4 mb-4 lg:mb-10">
-            <Building size={56} className="text-[#4B0082] lg:w-14 lg:h-14 w-8 h-8" />
+            <Building size={56} className="text-[#741582] lg:w-14 lg:h-14 w-8 h-8" />
             <div>  
-              <h1 className="text-2xl lg:text-4xl font-black text-[#4B0082]">Olá, Síndico(a)!</h1>
+              <h1 className="text-2xl lg:text-4xl font-black text-[#741582]">Olá, Síndico(a)!</h1>
               <p className="text-[#3A1067] font-medium text-sm lg:text-lg">Navegue pelos módulos abaixo para acessar suas funcionalidades.</p>
               </div>
             </div>
@@ -26,27 +26,27 @@ export default function HomeSindica() {
           <div className="flex flex-col gap-2 lg:gap-4">
             {/* Botão 1: Porteiros */}
             <Link href="/sindica/gerenciarporteiros" className="group flex items-center gap-4 lg:gap-6 bg-white/65 p-4 lg:p-8 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-zinc-100 text-left">
-              <UserPlus size={56} className="text-[#4B0082] group-hover:scale-110 transition-transform shrink-0 lg:w-14 lg:h-14 w-8 h-8" />
+              <UserPlus size={56} className="text-[#741582] group-hover:scale-110 transition-transform shrink-0 lg:w-14 lg:h-14 w-8 h-8" />
               <div>
-                <h2 className="text-base lg:text-2xl font-bold text-[#4B0082]">Gerenciar Porteiros</h2>
+                <h2 className="text-base lg:text-2xl font-bold text-[#741582]">Gerenciar Porteiros</h2>
                 <p className="text-[#3A1067] text-sm lg:text-base">Cadastre, edite ou inative os porteiros do condomínio.</p>
               </div>
             </Link>
 
             {/* Botão 2: Moradores */}
             <Link href="/sindica/gerenciarmoradores" className="group flex items-center gap-4 lg:gap-6 bg-white/65 p-4 lg:p-8 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-zinc-100 text-left">
-              <Users size={56} className="text-[#4B0082] group-hover:scale-110 transition-transform shrink-0 lg:w-14 lg:h-14 w-8 h-8" />
+              <Users size={56} className="text-[#741582] group-hover:scale-110 transition-transform shrink-0 lg:w-14 lg:h-14 w-8 h-8" />
               <div>
-                <h2 className="text-base lg:text-2xl font-bold text-[#4B0082]">Gerenciar Moradores</h2>
+                <h2 className="text-base lg:text-2xl font-bold text-[#741582]">Gerenciar Moradores</h2>
                 <p className="text-[#3A1067] text-sm lg:text-base">Gerencie os estados dos perfis dos moradores.</p>
               </div>
             </Link>
 
             {/* Botão 3: Relatórios */}
             <Link href="/sindica/relatorios" className="group flex items-center gap-4 lg:gap-6 bg-white/65 p-4 lg:p-8 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-zinc-100 text-left">
-              <FileText size={56} className="text-[#4B0082] group-hover:scale-110 transition-transform shrink-0 lg:w-14 lg:h-14 w-8 h-8" />
+              <FileText size={56} className="text-[#741582] group-hover:scale-110 transition-transform shrink-0 lg:w-14 lg:h-14 w-8 h-8" />
               <div>
-                <h2 className="text-base lg:text-2xl font-bold text-[#4B0082]">Relatórios</h2>
+                <h2 className="text-base lg:text-2xl font-bold text-[#741582]">Relatórios</h2>
                 <p className="text-[#3A1067] text-sm lg:text-base">Acesse todo o registro de encomendas.</p>
               </div>
             </Link>

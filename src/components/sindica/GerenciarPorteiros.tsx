@@ -82,39 +82,39 @@ export default function GerenciarPorteiros() {
       {modalCadastro && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-[20px] shadow-xl p-8 max-w-md w-full mx-4 flex flex-col gap-5">
-            <h2 className="text-2xl font-black text-[#4B0082]">Cadastrar Porteiro</h2>
+            <h2 className="text-2xl font-black text-[#741582]">Cadastrar Porteiro</h2>
 
             <div className="flex flex-col gap-4">
               <div className="relative flex items-center">
-                <User size={20} className="absolute left-4 text-[#4B0082]" />
+                <User size={20} className="absolute left-4 text-[#741582]" />
                 <input
                   type="text"
                   placeholder="Nome"
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
-                  className="w-full bg-[#F5F5F5] border border-zinc-300 rounded-full py-3 pl-12 pr-4 text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-[#4B0082]"
+                  className="w-full bg-[#F5F5F5] border border-zinc-300 rounded-full py-3 pl-12 pr-4 text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-[#741582]"
                 />
               </div>
 
               <div className="relative flex items-center">
-                <Mail size={20} className="absolute left-4 text-[#4B0082]" />
+                <Mail size={20} className="absolute left-4 text-[#741582]" />
                 <input
                   type="email"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#F5F5F5] border border-zinc-300 rounded-full py-3 pl-12 pr-4 text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-[#4B0082]"
+                  className="w-full bg-[#F5F5F5] border border-zinc-300 rounded-full py-3 pl-12 pr-4 text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-[#741582]"
                 />
               </div>
 
               <div className="relative flex items-center">
-                <Phone size={20} className="absolute left-4 text-[#4B0082]" />
+                <Phone size={20} className="absolute left-4 text-[#741582]" />
                 <input
                   type="text"
                   placeholder="Celular"
                   value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
-                  className="w-full bg-[#F5F5F5] border border-zinc-300 rounded-full py-3 pl-12 pr-4 text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-[#4B0082]"
+                  className="w-full bg-[#F5F5F5] border border-zinc-300 rounded-full py-3 pl-12 pr-4 text-zinc-700 placeholder-zinc-400 focus:outline-none focus:border-[#741582]"
                 />
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function GerenciarPorteiros() {
               </button>
               <button
                 onClick={cadastrarPorteiro}
-                className="px-5 py-2 rounded-full bg-[#4B0082] text-white font-bold hover:bg-[#3a006f] transition-colors"
+                className="px-5 py-2 rounded-full bg-[#741582] text-white font-bold hover:bg-[#3a006f] transition-colors"
               >
                 Cadastrar
               </button>
@@ -141,7 +141,7 @@ export default function GerenciarPorteiros() {
       {confirmacao.visivel && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-[20px] shadow-xl p-8 max-w-md w-full mx-4 flex flex-col gap-4">
-            <h2 className="text-xl font-black text-[#4B0082]">Cancelar acesso?</h2>
+            <h2 className="text-xl font-black text-[#741582]">Cancelar acesso?</h2>
             <p className="text-zinc-600">
               Você está prestes a cancelar o acesso de{' '}
               <span className="font-bold text-zinc-800">{confirmacao.nomePorteiro}</span>.
@@ -172,9 +172,9 @@ export default function GerenciarPorteiros() {
 
           {/* Cabeçalho */}
           <div className="flex items-center gap-4">
-            <UserPlus size={56} className="text-[#4B0082] lg:w-14 lg:h-14 w-8 h-8" />
+            <UserPlus size={56} className="text-[#741582] lg:w-14 lg:h-14 w-8 h-8" />
             <div>
-              <h1 className="text-2xl lg:text-4xl font-black text-[#4B0082]">Gerenciar Porteiros</h1>
+              <h1 className="text-2xl lg:text-4xl font-black text-[#741582]">Gerenciar Porteiros</h1>
               <p className="text-[#3A1067] font-medium text-sm lg:text-lg">Cadastre, edite ou inative porteiros</p>
             </div>
           </div>
@@ -186,7 +186,7 @@ export default function GerenciarPorteiros() {
               <select
                 value={filtro}
                 onChange={(e) => setFiltro(e.target.value as 'todos' | Status)}
-                className="appearance-none bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#4B0082] cursor-pointer shadow-sm w-32"
+                className="appearance-none bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#741582] cursor-pointer shadow-sm w-32"
               >
                 <option value="todos">Todos</option>
                 <option value="ativo">Ativo</option>
@@ -202,14 +202,14 @@ export default function GerenciarPorteiros() {
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
                 placeholder="Busque um porteiro..."
-                className="w-full bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#4B0082] shadow-sm"
+                className="w-full bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#741582] shadow-sm"
               />
               <Search size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
             </div>
 
             <button
               onClick={() => setModalCadastro(true)}
-              className="flex items-center gap-2 bg-[#4B0082] text-white font-bold px-5 py-2 rounded-[15px] hover:bg-[#3a006f] transition-colors shadow-sm"
+              className="flex items-center gap-2 bg-[#741582] text-white font-bold px-5 py-2 rounded-[15px] hover:bg-[#3a006f] transition-colors shadow-sm"
             >
               <Plus size={18} />
               Cadastrar
@@ -220,7 +220,7 @@ export default function GerenciarPorteiros() {
           <div className="flex-1 bg-white border border-zinc-300 rounded-[15px] shadow-sm overflow-hidden flex flex-col">
             <div className="relative z-10 flex-1 overflow-y-auto bg-white">
 
-              <div className="sticky top-0 z-20 bg-[#4B0082] text-white font-bold py-2 grid grid-cols-[2fr_2fr_1.5fr_1fr_1fr] text-center rounded-t-[15px]">
+              <div className="sticky top-0 z-20 bg-[#741582] text-white font-bold py-2 grid grid-cols-[2fr_2fr_1.5fr_1fr_1fr] text-center rounded-t-[15px]">
                 <div>Porteiro</div>
                 <div>Email</div>
                 <div>Telefone</div>
@@ -245,7 +245,7 @@ export default function GerenciarPorteiros() {
                           onClick={() => updateStatus(porteiro.id, 'ativo')}
                           disabled={cancelado || porteiro.status === 'ativo'}
                           title={cancelado ? 'Cancelamento é definitivo' : 'Ativar porteiro'}
-                          className={`transition-colors ${cancelado || porteiro.status === 'ativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#4B0082] hover:text-green-500 cursor-pointer'}`}
+                          className={`transition-colors ${cancelado || porteiro.status === 'ativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#741582] hover:text-green-500 cursor-pointer'}`}
                         >
                           <CirclePlay size={22} />
                         </button>
@@ -254,7 +254,7 @@ export default function GerenciarPorteiros() {
                           onClick={() => updateStatus(porteiro.id, 'inativo')}
                           disabled={cancelado || porteiro.status === 'inativo'}
                           title={cancelado ? 'Cancelamento é definitivo' : 'Inativar porteiro'}
-                          className={`transition-colors ${cancelado || porteiro.status === 'inativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#4B0082] hover:text-zinc-600 cursor-pointer'}`}
+                          className={`transition-colors ${cancelado || porteiro.status === 'inativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#741582] hover:text-zinc-600 cursor-pointer'}`}
                         >
                           <CirclePause size={22} />
                         </button>
@@ -263,7 +263,7 @@ export default function GerenciarPorteiros() {
                           onClick={() => pedirConfirmacaoCancelamento(porteiro.id, porteiro.nome)}
                           disabled={cancelado}
                           title={cancelado ? 'Já cancelado' : 'Cancelar porteiro'}
-                          className={`transition-colors ${cancelado ? 'text-zinc-300 cursor-not-allowed' : 'text-[#4B0082] hover:text-red-500 cursor-pointer'}`}
+                          className={`transition-colors ${cancelado ? 'text-zinc-300 cursor-not-allowed' : 'text-[#741582] hover:text-red-500 cursor-pointer'}`}
                         >
                           <CircleX size={22} />
                         </button>
