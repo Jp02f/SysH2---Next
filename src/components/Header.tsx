@@ -2,6 +2,12 @@
 import Link from 'next/link';
 import { Bell, MoonStar, UserCircle, Power } from 'lucide-react';
 import Logo from './logo';
+import { Roboto_Flex } from 'next/font/google';
+
+const robotoFlex = Roboto_Flex({ 
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function Header({ homeHref = '/' }: { homeHref?: string }) {
   return (
@@ -25,7 +31,7 @@ export default function Header({ homeHref = '/' }: { homeHref?: string }) {
         <div className="flex items-center gap-3">
           <UserCircle size={40} className="text-[#4B0082] flex-shrink-0 lg:w-10 lg:h-10 w-7 h-7" />
           <div className="flex flex-col items-center text-center">
-            <p className="text-sm lg:text-base font-black text-zinc-800 leading-tight">CLEIDE SILVA</p>
+            <p className={`${robotoFlex.className} text-sm lg:text-base font-black text-zinc-800 leading-tight`}>CLEIDE SILVA</p>
             <button className="text-xs font-semibold text-zinc-500 hover:text-[#4B0082] underline leading-none mt-0.5">
               Alterar Senha
               </button>
