@@ -87,7 +87,7 @@ export default function GerenciarMoradores() {
       {confirmacao.visivel && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-[20px] shadow-xl p-8 max-w-md w-full mx-4 flex flex-col gap-4">
-            <h2 className="text-xl font-black text-[#4B0082]">Cancelar acesso?</h2>
+            <h2 className="text-xl font-black text-[#7B00FF]">Cancelar acesso?</h2>
             <p className="text-zinc-600">
               Você está prestes a cancelar o acesso de{' '}
               <span className="font-bold text-zinc-800">{confirmacao.nomeMorador}</span>.
@@ -118,9 +118,9 @@ export default function GerenciarMoradores() {
 
           {/* Cabeçalho */}
           <div className="flex items-center gap-4">
-            <Users size={56} className="text-[#4B0082] lg:w-14 lg:h-14 w-8 h-8" />
+            <Users size={56} className="text-[#3A1067] lg:w-14 lg:h-14 w-8 h-8" />
             <div>
-              <h1 className="text-2xl lg:text-4xl font-black text-[#4B0082]">Gerenciar Moradores</h1>
+              <h1 className="text-2xl lg:text-4xl font-black text-[#3A1067]">Gerenciar Moradores</h1>
               <p className="text-[#3A1067] font-medium text-sm lg:text-lg">Ative, inative ou cancele os acessos dos moradores</p>
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function GerenciarMoradores() {
               <select
                 value={filtro}
                 onChange={(e) => setFiltro(e.target.value as 'todos' | Status)}
-                className="appearance-none bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#4B0082] cursor-pointer shadow-sm w-32"
+                className="appearance-none bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#7B00FF] cursor-pointer shadow-sm w-32"
               >
                 <option value="todos">Todos</option>
                 <option value="ativo">Ativo</option>
@@ -147,14 +147,14 @@ export default function GerenciarMoradores() {
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
                 placeholder="Buscar um morador..."
-                className="w-full bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#4B0082] shadow-sm"
+                className="w-full bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#7B00FF] shadow-sm"
               />
               <Search size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
             </div>
 
             <button
               onClick={exportarPDF}
-              className="flex items-center gap-2 bg-[#4B0082] text-white font-bold px-5 py-2 rounded-[15px] hover:bg-[#3a006f] transition-colors shadow-sm"
+              className="flex items-center gap-2 bg-[#C500E1] text-white font-bold px-5 py-2 rounded-[15px] hover:bg-[#3a006f] transition-colors shadow-sm"
             >
               <FileDown size={18} />
               Exportar
@@ -165,7 +165,7 @@ export default function GerenciarMoradores() {
           <div className="flex-1 bg-white border border-zinc-300 rounded-[15px] shadow-sm overflow-hidden flex flex-col">
             <div className="relative z-10 flex-1 overflow-y-auto bg-white">
 
-              <div className="sticky top-0 z-20 bg-[#4B0082] text-white font-bold py-2 grid grid-cols-[2fr_2fr_1.5fr_0.5fr_1fr_1fr_1fr] text-center rounded-t-[15px]">
+              <div className="sticky top-0 z-20 bg-[#C500E1] text-white font-bold py-2 grid grid-cols-[2fr_2fr_1.5fr_0.5fr_1fr_1fr_1fr] text-center rounded-t-[15px]">
                 <div>Morador</div>
                 <div>Email</div>
                 <div>Telefone</div>
@@ -195,7 +195,7 @@ export default function GerenciarMoradores() {
                           onClick={() => updateStatus(morador.id, 'ativo')}
                           disabled={cancelado || morador.status === 'ativo'}
                           title={cancelado ? 'Cancelamento é definitivo' : 'Ativar morador'}
-                          className={`transition-colors ${cancelado || morador.status === 'ativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#4B0082] hover:text-green-500 cursor-pointer'}`}
+                          className={`transition-colors ${cancelado || morador.status === 'ativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#7B00FF] hover:text-green-500 cursor-pointer'}`}
                         >
                           <CirclePlay size={25} />
                         </button>
@@ -205,7 +205,7 @@ export default function GerenciarMoradores() {
                           onClick={() => updateStatus(morador.id, 'inativo')}
                           disabled={cancelado || morador.status === 'inativo'}
                           title={cancelado ? 'Cancelamento é definitivo' : 'Inativar morador'}
-                          className={`transition-colors ${cancelado || morador.status === 'inativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#4B0082] hover:text-zinc-600 cursor-pointer'}`}
+                          className={`transition-colors ${cancelado || morador.status === 'inativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#7B00FF] hover:text-zinc-600 cursor-pointer'}`}
                         >
                           <CirclePause size={25} />
                         </button>
@@ -215,7 +215,7 @@ export default function GerenciarMoradores() {
                           onClick={() => pedirConfirmacaoCancelamento(morador.id, morador.nome)}
                           disabled={cancelado}
                           title={cancelado ? 'Já cancelado' : 'Cancelar morador'}
-                          className={`transition-colors ${cancelado ? 'text-zinc-300 cursor-not-allowed' : 'text-[#4B0082] hover:text-red-500 cursor-pointer'}`}
+                          className={`transition-colors ${cancelado ? 'text-zinc-300 cursor-not-allowed' : 'text-[#7B00FF] hover:text-red-500 cursor-pointer'}`}
                         >
                           <CircleX size={25} />
                         </button>

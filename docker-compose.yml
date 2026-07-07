@@ -4,9 +4,15 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
       - /app/node_modules
     environment:
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
       - TURBOPACK_WATCH_OPTIONS={"poll":1000}
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - node_modules/

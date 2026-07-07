@@ -209,7 +209,7 @@ export default function GerenciarPorteiros() {
 
             <button
               onClick={() => setModalCadastro(true)}
-              className="flex items-center gap-2 bg-[#741582] text-white font-bold px-5 py-2 rounded-[15px] hover:bg-[#3a006f] transition-colors shadow-sm"
+              className="flex items-center gap-2 bg-[#C500E1] text-white font-bold px-5 py-2 rounded-[15px] hover:bg-[#3a006f] transition-colors shadow-sm"
             >
               <Plus size={18} />
               Cadastrar
@@ -220,7 +220,7 @@ export default function GerenciarPorteiros() {
           <div className="flex-1 bg-white border border-zinc-300 rounded-[15px] shadow-sm overflow-hidden flex flex-col">
             <div className="relative z-10 flex-1 overflow-y-auto bg-white">
 
-              <div className="sticky top-0 z-20 bg-[#741582] text-white font-bold py-2 grid grid-cols-[2fr_2fr_1.5fr_1fr_1fr] text-center rounded-t-[15px]">
+              <div className="sticky top-0 z-20 bg-[#C500E1] text-white font-bold py-2 grid grid-cols-[2fr_2fr_1.5fr_1fr_1fr] text-center rounded-t-[15px]">
                 <div>Porteiro</div>
                 <div>Email</div>
                 <div>Telefone</div>

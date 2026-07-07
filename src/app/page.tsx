@@ -96,7 +96,7 @@ export default function Login() {
           {/* Botão entrar */}
           <button
             onClick={handleLogin}
-            className="w-full bg-[#741582] text-white font-bold py-3 rounded-full hover:bg-[#3a006f] transition-colors shadow-md"
+            className="w-full bg-[#C500E1] text-white font-bold py-3 rounded-full hover:bg-[#3a006f] transition-colors shadow-md"
           >
             ENTRAR
           </button>
@@ -104,7 +104,7 @@ export default function Login() {
           {/* Cadastro */}
           <p className="text-center text-zinc-600 text-sm">
             Não possui conta?{' '}
-            <button className="text-[#741582] font-semibold hover:underline">
+            <button className="text-[#C500E1] font-semibold hover:underline">
               Cadastra-se
             </button>
           </p>
