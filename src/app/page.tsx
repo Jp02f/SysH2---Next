@@ -104,7 +104,9 @@ export default function Login() {
           {/* Cadastro */}
           <p className="text-center text-zinc-600 text-sm">
             Não possui conta?{' '}
-            <button className="text-[#C500E1] font-semibold hover:underline">
+            <button 
+            onClick={() => router.push('/cadastro')}
+            className="text-[#C500E1] font-semibold hover:underline">
               Cadastra-se
             </button>
           </p>
