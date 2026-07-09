@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import Header from '../Header';
 import { Minus, Plus, ScanBarcode, ChevronDown, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
@@ -17,6 +17,56 @@ export default function HomePorteiro() {
   const [terceiros, setTerceiros] = useState(false);
   const [nomeTerceiro, setNomeTerceiro] = useState('');
   const [token, setToken] = useState(['', '', '', '', '', '']);
+  const [moradores, setMoradores] = useState([]);
+  const [blocos, setBlocos] = useState([]);
+  const [apartamentos, setApartamentos] = useState([]);
+  const [blocoSelecionado, setBlocoSelecionado] = useState('');
+  const [apartamentoSelecionado, setApartamentoSelecionado] = useState('');
+  const [dataHora, setDataHora] = useState('');
+  const [retirarUrgencia, setRetirarUrgencia] = useState(false);
+
+  function formatarDataHora(data) {
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const horas = String(data.getHours()).padStart(2, '0');
+    const minutos = String(data.getMinutes()).padStart(2, '0');
+    return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+  }
+
+
+  useEffect(() => {
+  if (!apartamentoSelecionado) {
+    setMoradores([]);
+    return;
+  }
+  fetch(`http://127.0.0.1:8000/api/usuarios/?tipo_usuario=1&apartamento=${apartamentoSelecionado}`)
+    .then((res) => res.json())
+    .then((data) => setMoradores(data))
+    .catch((err) => console.error('Erro ao buscar moradores:', err));
+}, [apartamentoSelecionado]);
+
+  useEffect(() => {
+  fetch('http://127.0.0.1:8000/api/blocos/')
+    .then((res) => res.json())
+    .then((data) => setBlocos(data))
+    .catch((err) => console.error('Erro ao buscar blocos:', err));
+  }, []);
+
+  useEffect(() => {
+  if (!blocoSelecionado) {
+    setApartamentos([]);
+    return;
+  }
+  fetch(`http://127.0.0.1:8000/api/apartamentos/?bloco=${blocoSelecionado}`)
+    .then((res) => res.json())
+    .then((data) => setApartamentos(data))
+    .catch((err) => console.error('Erro ao buscar apartamentos:', err));
+  }, [blocoSelecionado]);
+
+  useEffect(() => {
+  setDataHora(formatarDataHora(new Date()));
+  }, []);
 
   return (
     <div className="h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">
@@ -82,10 +132,18 @@ export default function HomePorteiro() {
               </label>
               <div className="relative">
                 <select
+                  value={blocoSelecionado}
+                  onChange={(e) => {
+                    setBlocoSelecionado(e.target.value);
+                    setApartamentoSelecionado('');
+                  }}
                   className="w-full appearance-none border border-zinc-300 rounded-2xl px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-[#741582] bg-white text-zinc-900 h-[42px]">
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
+                  <option value="">-</option>
+                  {blocos.map((bloco) => (
+                    <option key={bloco.id_bloco} value={bloco.id_bloco}>
+                      {bloco.bloco}
+                    </option>
+                  ))}
                 </select>
                 <ChevronDown size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#000000] pointer-events-none" />
               </div>
@@ -97,28 +155,16 @@ export default function HomePorteiro() {
               </label>
               <div className="relative">
                 <select
+                  value={apartamentoSelecionado}
+                  onChange={(e) => setApartamentoSelecionado(e.target.value)}
                   className="w-full appearance-none border border-zinc-300 rounded-2xl px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-[#741582] bg-white text-zinc-900 h-[42px]">
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                  <option value="13">13</option>
-                  <option value="14">14</option>
-                  <option value="21">21</option>
-                  <option value="22">22</option>
-                  <option value="23">23</option>
-                  <option value="24">24</option>
-                  <option value="31">31</option>
-                  <option value="32">32</option>
-                  <option value="33">33</option>
-                  <option value="34">34</option>  
-                  <option value="41">41</option>
-                  <option value="42">42</option>
-                  <option value="43">43</option>
-                  <option value="44">44</option>
-                  <option value="51">51</option>
-                  <option value="52">52</option>
-                  <option value="53">53</option>
-                  <option value="54">54</option>
-              </select>
+                  <option value="">-</option>
+                  {apartamentos.map((apto) => (
+                    <option key={apto.id_apartamento} value={apto.id_apartamento}>
+                      {apto.apartamento}
+                    </option>
+                  ))}
+                </select>
                 <ChevronDown size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#000000] pointer-events-none" />
               </div>
             </div>
@@ -130,10 +176,12 @@ export default function HomePorteiro() {
               <div className="relative">
               <select
                 className="w-full appearance-none border border-zinc-300 rounded-2xl px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-[#741582] bg-white text-zinc-900 h-[42px]">
-                  <option value="ana">Ana Giulia Belisario da Silva</option>
-                  <option value="claudio">Claudio Humberto Rodrigues Custodio</option>
-                  <option value="joao">João Pedro Ferreira de Morais</option>
-                  <option value="thalita">Thalita Domingues de Jesus</option>
+                  <option value="">Selecione um morador</option>
+                  {moradores.map((morador) => (
+                  <option key={morador.id_usuario} value={morador.id_usuario}>
+                  {morador.nome}
+                  </option>
+                  ))}
               </select>
                 <ChevronDown size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#000000] pointer-events-none" />
               </div>
@@ -192,8 +240,9 @@ export default function HomePorteiro() {
               </label>
               <input
                 type="text"
-                placeholder="08/07/2026 14:30"
-                className="border border-zinc-300 rounded-2xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#741582] bg-white text-zinc-900"
+                value={dataHora || ''}
+                readOnly
+                className="border border-zinc-300 rounded-2xl px-4 py-2 bg-white text-zinc-900"
               />
             </div>
 
