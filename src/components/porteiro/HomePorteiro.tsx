@@ -10,6 +10,23 @@ const robotoFlex = Roboto_Flex({
   display: 'swap',
 });
 
+
+interface Bloco {
+  id_bloco: number;
+  bloco: string;
+}
+
+interface Apartamento {
+  id_apartamento: number;
+  apartamento: number;
+  id_bloco: number;
+}
+
+interface Morador {
+  id_usuario: number;
+  nome: string;
+}
+
 export default function HomePorteiro() {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('cadastrar');
@@ -17,9 +34,9 @@ export default function HomePorteiro() {
   const [terceiros, setTerceiros] = useState(false);
   const [nomeTerceiro, setNomeTerceiro] = useState('');
   const [token, setToken] = useState(['', '', '', '', '', '']);
-  const [moradores, setMoradores] = useState([]);
-  const [blocos, setBlocos] = useState([]);
-  const [apartamentos, setApartamentos] = useState([]);
+  const [moradores, setMoradores] = useState<Morador[]>([]);
+  const [blocos, setBlocos] = useState<Bloco[]>([]);
+  const [apartamentos, setApartamentos] = useState<Apartamento[]>([]);
   const [blocoSelecionado, setBlocoSelecionado] = useState('');
   const [apartamentoSelecionado, setApartamentoSelecionado] = useState('');
   const [dataHora, setDataHora] = useState('');
