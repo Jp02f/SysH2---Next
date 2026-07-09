@@ -25,7 +25,7 @@ export default function HomePorteiro() {
   const [dataHora, setDataHora] = useState('');
   const [retirarUrgencia, setRetirarUrgencia] = useState(false);
 
-  function formatarDataHora(data) {
+  function formatarDataHora(data: Date) {
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
     const ano = data.getFullYear();
