@@ -5,11 +5,6 @@ import Image from 'next/image';
 import { Mail, Lock } from 'lucide-react';
 import Logo from '@/components/logo';
 
-const usuarios = [
-  { email: 'sindica@gmail.com', senha: '123456', perfil: 'sindica' },
-  { email: 'porteiro@gmail.com', senha: '123456', perfil: 'porteiro' },
-  { email: 'morador@gmail.com', senha: '123456', perfil: 'morador' },
-];
 
 export default function Login() {
   const router = useRouter();
@@ -17,18 +12,51 @@ export default function Login() {
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
 
-  const handleLogin = () => {
-    const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+  const handleLogin = async () => {
+  setErro("");
 
-    if (!usuario) {
-      setErro('Email ou senha incorretos.');
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        senha,
+      }),
+    });
+
+    const data = await response.json();
+    
+
+    if (!response.ok) {
+      setErro(data.erro || "Email ou senha incorretos.");
       return;
     }
 
-    if (usuario.perfil === 'sindica') router.push('/sindica/home');
-    if (usuario.perfil === 'porteiro') router.push('/porteiro/home');
-    if (usuario.perfil === 'morador') router.push('/morador/home');
-  };
+    switch (data.tipo_usuario) {
+      case 1:
+        router.push("/morador/home");
+        break;
+
+      case 2:
+        router.push("/porteiro/home");
+        break;
+
+      case 3:
+        router.push("/sindica/home");
+        break;
+
+      default:
+        setErro("Perfil de usuário inválido.");
+    }
+
+  } catch (error) {
+    console.error(error);
+    setErro("Erro ao conectar com o servidor.");
+  }
+};
 
   return (
     <div className="h-screen flex overflow-hidden bg-[#F1F1EF] items-center justify-center">

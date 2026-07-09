@@ -1,9 +1,20 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { User, Phone, Mail, Lock, ChevronDown } from 'lucide-react';
 import Logo from '@/components/logo';
+
+interface Bloco {
+  id_bloco: number;
+  bloco: string;
+}
+
+interface Apartamento {
+  id_apartamento: number;
+  apartamento: number;
+  id_bloco: number;
+}
 
 export default function Cadastro() {
   const router = useRouter();
@@ -12,10 +23,70 @@ export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [blocos, setBlocos] = useState<Bloco[]>([]);
+  const [apartamentos, setApartamentos] = useState<Apartamento[]>([]);
+  const [blocoSelecionado, setBlocoSelecionado] = useState('');
+  const [apartamentoSelecionado, setApartamentoSelecionado] = useState('');
 
-  const handleCadastro = () => {
+  const handleCadastro = async () => {
     // lógica de cadastro vem aqui depois
-  };
+
+    if (senha !== confirmarSenha) {
+        alert("As senhas não coincidem.");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/usuarios/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nome,
+                telefone: celular,
+                email,
+                senha,
+                id_apartamento: apartamentoSelecionado,
+            }),
+         });
+
+        const data = await response.json();
+        console.log("Status:", response.status);
+        console.log(JSON.stringify(data, null, 2));
+
+        if (!response.ok) {
+            alert(data.erro || "Erro ao cadastrar.");
+            return;
+        }
+
+        alert("Cadastro enviado com sucesso! Aguarde aprovação do síndico.");
+        router.push("/");
+    }   catch (error) {
+        console.error(error);
+        alert("Erro ao conectar com o servidor.");
+    } 
+
+    };
+
+
+  useEffect(() => {
+  fetch('http://127.0.0.1:8000/api/blocos/')
+    .then((res) => res.json())
+    .then((data) => setBlocos(data))
+    .catch((err) => console.error('Erro ao buscar blocos:', err));
+  }, []);
+
+  useEffect(() => {
+  if (!blocoSelecionado) {
+    setApartamentos([]);
+    return;
+  }
+  fetch(`http://127.0.0.1:8000/api/apartamentos/?bloco=${blocoSelecionado}`)
+    .then((res) => res.json())
+    .then((data) => setApartamentos(data))
+    .catch((err) => console.error('Erro ao buscar apartamentos:', err));
+  }, [blocoSelecionado]);
 
   return (
     <div className="h-screen flex overflow-hidden bg-[#F1F1EF] items-center justify-center">
@@ -82,10 +153,19 @@ export default function Cadastro() {
               <div className="flex items-center gap-2">
                 <label className="text-xs font-bold text-zinc-600 uppercase">Bloco</label>
                 <div className="relative">
-                  <select className="appearance-none bg-[#F5F5F5] border border-zinc-300 rounded-full pl-4 pr-8 py-2 text-zinc-700 focus:outline-none focus:border-[#4B0082]">
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
+                  <select 
+                  value={blocoSelecionado}
+                  onChange={(e) => {
+                    setBlocoSelecionado(e.target.value);
+                    setApartamentoSelecionado('');
+                }}
+                  className="appearance-none bg-[#F5F5F5] border border-zinc-300 rounded-full pl-4 pr-8 py-2 text-zinc-700 focus:outline-none focus:border-[#4B0082]">
+                    <option value="">-</option>
+                    {blocos.map((bloco) => (
+                        <option key={bloco.id_bloco} value={bloco.id_bloco}>
+                            {bloco.bloco}
+                        </option>
+                    ))}
                   </select>
                   <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
                 </div>
@@ -94,10 +174,16 @@ export default function Cadastro() {
               <div className="flex items-center gap-2">
                 <label className="text-xs font-bold text-zinc-600 uppercase">Apartamento</label>
                 <div className="relative">
-                  <select className="appearance-none bg-[#F5F5F5] border border-zinc-300 rounded-full pl-4 pr-8 py-2 text-zinc-700 focus:outline-none focus:border-[#4B0082]">
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
+                  <select 
+                  value={apartamentoSelecionado}
+                  onChange={(e) => setApartamentoSelecionado(e.target.value)}
+                  className="appearance-none bg-[#F5F5F5] border border-zinc-300 rounded-full pl-4 pr-8 py-2 text-zinc-700 focus:outline-none focus:border-[#4B0082]">
+                <option value="">-</option>
+                {apartamentos.map((apto) => (
+                    <option key={apto.id_apartamento} value={apto.id_apartamento}>
+                        {apto.apartamento}
+                    </option>
+                ))}
                   </select>
                   <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
                 </div>

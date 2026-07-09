@@ -1,17 +1,17 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../Header';
 import { Users, CirclePause, CirclePlay, CircleX, ChevronDown, Search, FileDown } from 'lucide-react';
 
-type Status = 'ativo' | 'inativo' | 'cancelado';
+type Status = "Ativo" | "Inativo" | "Cancelado";
 
 function StatusBadge({ status }: { status: Status }) {
   const styles = {
-    ativo: 'bg-green-100 text-green-800 border border-green-300',
-    inativo: 'bg-blue-100 text-blue-800 border border-blue-300',
-    cancelado: 'bg-red-100 text-red-800 border border-red-300'
+    Ativo: 'bg-green-100 text-green-800 border border-green-300',
+    Inativo: 'bg-blue-100 text-blue-800 border border-blue-300',
+    Cancelado: 'bg-red-100 text-red-800 border border-red-300'
   };
-  const labels = { ativo: 'Ativo', inativo: 'Inativo', cancelado: 'Cancelado' };
+  const labels = { Ativo: 'Ativo', Inativo: 'Inativo', Cancelado: 'Cancelado' };
   return (
     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${styles[status]}`}>
       {labels[status]}
@@ -19,23 +19,20 @@ function StatusBadge({ status }: { status: Status }) {
   );
 }
 
-const moradoresIniciais = [
-  { id: 1, nome: 'Fulano da Silva', email: 'fulano@gmail.com', telefone: '11975681643', bloco: 'C', apartamento: '11', status: 'cancelado' as Status },
-  { id: 2, nome: 'Beltrano de Souza', email: 'beltrano@gmail.com', telefone: '11987654321', bloco: 'B', apartamento: '13', status: 'ativo' as Status },
-  { id: 3, nome: 'Ciclano Pereira', email: 'ciclano@gmail.com', telefone: '11912345678', bloco: 'A', apartamento: '21', status: 'inativo' as Status },
-  { id: 4, nome: 'Maria Oliveira', email: 'maria@gmail.com', telefone: '11987654321', bloco: 'A', apartamento: '34', status: 'ativo' as Status },
-  { id: 5, nome: 'João Santos', email: 'joao@gmail.com', telefone: '11912345678', bloco: 'C', apartamento: '32', status: 'cancelado' as Status },
-  { id: 6, nome: 'Ana Costa', email: 'ana@gmail.com', telefone: '11923456789', bloco: 'B', apartamento: '24', status: 'inativo' as Status },
-  { id: 7, nome: 'Pedro Lima', email: 'pedro@gmail.com', telefone: '11934567890', bloco: 'B', apartamento: '13', status: 'ativo' as Status },
-  { id: 8, nome: 'Lucas Almeida', email: 'lucas@gmail.com', telefone: '11945678901', bloco: 'C', apartamento: '1', status: 'cancelado' as Status },
-  { id: 9, nome: 'Mariana Rodrigues', email: 'mariana@gmail.com', telefone: '11956789012', bloco: 'A', apartamento: '25', status: 'inativo' as Status },
-  { id: 10, nome: 'Rafael Ferreira', email: 'rafael@gmail.com', telefone: '11967890123', bloco: 'B', apartamento: '35', status: 'ativo' as Status },
-];
+interface Morador {
+  id_usuario: number;
+  nome: string;
+  email: string;
+  telefone: string;
+  bloco: string;
+  apartamento: number;
+  situacao_cadastral: "Ativo" | "Inativo" | "Cancelado";
+}
 
 export default function GerenciarMoradores() {
   const [filtro, setFiltro] = useState<'todos' | Status>('todos');
   const [busca, setBusca] = useState('');
-  const [moradores, setMoradores] = useState(moradoresIniciais);
+  const [moradores, setMoradores] = useState<Morador[]>([]);
   const [confirmacao, setConfirmacao] = useState<{ visivel: boolean; moradorId: number | null; nomeMorador: string }>({
     visivel: false,
     moradorId: null,
@@ -43,11 +40,46 @@ export default function GerenciarMoradores() {
   });
 
   const moradoresFiltrados = moradores
-    .filter(m => filtro === 'todos' || m.status === filtro)
+    .filter(
+      m => 
+        filtro === 'todos' ||
+      m.situacao_cadastral.toLowerCase() === filtro
+    )
     .filter(m => m.nome.toLowerCase().includes(busca.toLowerCase()));
 
-  const updateStatus = (id: number, novoStatus: Status) => {
-    setMoradores(prev => prev.map(m => m.id === id ? { ...m, status: novoStatus } : m));
+  const updateStatus = async (id: number, novoStatus: Status) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          situacao_cadastral: novoStatus, 
+        }),
+
+      });
+
+      if (!response.ok) {
+        alert('Erro ao atualizar a situação.');
+        return;
+      }
+    
+      setMoradores(prev =>
+       prev.map(m =>
+        m.id_usuario === id 
+        ? { 
+          ...m, 
+          situacao_cadastral: novoStatus,
+          } 
+        : m
+      )
+    );
+
+  }catch (error) {
+      console.error(error);
+      alert("Erro ao conectar com o servidor.");
+  }
   };
 
   const pedirConfirmacaoCancelamento = (id: number, nome: string) => {
@@ -56,7 +88,7 @@ export default function GerenciarMoradores() {
 
   const confirmarCancelamento = () => {
     if (confirmacao.moradorId !== null) {
-      updateStatus(confirmacao.moradorId, 'cancelado');
+      updateStatus(confirmacao.moradorId, 'Cancelado');
     }
     setConfirmacao({ visivel: false, moradorId: null, nomeMorador: '' });
   };
@@ -65,9 +97,11 @@ export default function GerenciarMoradores() {
     setConfirmacao({ visivel: false, moradorId: null, nomeMorador: '' });
   };
 
+  
+
   const exportarPDF = () => {
     const linhas = moradoresFiltrados
-      .map(m => `${m.nome} | ${m.email} | ${m.telefone} | Bloco ${m.bloco} | Ap ${m.apartamento} | ${m.status}`)
+      .map(m => `${m.nome} | ${m.email} | ${m.telefone} | Bloco ${m.bloco} | Ap ${m.apartamento} | ${m.situacao_cadastral}`)
       .join('\n');
     const conteudo = `RELATÓRIO DE MORADORES\n${'='.repeat(60)}\n\n${linhas}`;
     const blob = new Blob([conteudo], { type: 'text/plain' });
@@ -79,6 +113,18 @@ export default function GerenciarMoradores() {
     URL.revokeObjectURL(url);
   };
 
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/usuarios/?tipo_usuario=1")
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          setMoradores(data);
+        })
+        .catch(err => console.error(err));
+  }, []);
+
+
+
   return (
     <div className="h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">
       <Header homeHref="/sindica/home" />
@@ -86,8 +132,8 @@ export default function GerenciarMoradores() {
       {/* Modal de Confirmação de Cancelamento */}
       {confirmacao.visivel && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-[20px] shadow-xl p-8 max-w-md w-full mx-4 flex flex-col gap-4">
-            <h2 className="text-xl font-black text-[#7B00FF]">Cancelar acesso?</h2>
+          <div className="bg-white rounded-[20px] shadow-xl p-8 w-full max-w-3xl mx-4 relative min-h-[200px] flex flex-col gap-4">
+            <h2 className="text-xl font-black text-[#3A1067]">Cancelar acesso?</h2>
             <p className="text-zinc-600">
               Você está prestes a cancelar o acesso de{' '}
               <span className="font-bold text-zinc-800">{confirmacao.nomeMorador}</span>.
@@ -177,42 +223,42 @@ export default function GerenciarMoradores() {
 
               <div className="divide-y divide-zinc-300">
                 {moradoresFiltrados.map((morador) => {
-                  const cancelado = morador.status === 'cancelado';
+                  const cancelado = morador.situacao_cadastral.toLowerCase() === 'cancelado';
                   return (
-                    <div key={morador.id} className="grid grid-cols-[2fr_2fr_1.5fr_0.5fr_1fr_1fr_1fr] py-2 lg:py-4 text-zinc-700 text-center items-center hover:bg-zinc-50 transition-colors">
+                    <div key={morador.id_usuario} className="grid grid-cols-[2fr_2fr_1.5fr_0.5fr_1fr_1fr_1fr] py-2 lg:py-4 text-zinc-700 text-center items-center hover:bg-zinc-50 transition-colors">
                       <div className="font-normal text-sm lg:text-base">{morador.nome}</div>
                       <div className="font-normal text-sm lg:text-base">{morador.email}</div>
                       <div className="font-normal text-sm lg:text-base">{morador.telefone}</div>
                       <div className="font-normal text-sm lg:text-base">{morador.bloco}</div>
                       <div className="font-normal text-sm lg:text-base">{morador.apartamento}</div>
                       <div className="flex justify-center">
-                        <StatusBadge status={morador.status} />
+                        <StatusBadge status={morador.situacao_cadastral} />
                       </div>
                       <div className="flex justify-center gap-4">
 
                         {/* Ativar */}
                         <button
-                          onClick={() => updateStatus(morador.id, 'ativo')}
-                          disabled={cancelado || morador.status === 'ativo'}
+                          onClick={() => updateStatus(morador.id_usuario, 'Ativo')}
+                          disabled={cancelado || morador.situacao_cadastral === 'Ativo'}
                           title={cancelado ? 'Cancelamento é definitivo' : 'Ativar morador'}
-                          className={`transition-colors ${cancelado || morador.status === 'ativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#7B00FF] hover:text-green-500 cursor-pointer'}`}
+                          className={`transition-colors ${cancelado || morador.situacao_cadastral === 'Ativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#7B00FF] hover:text-green-500 cursor-pointer'}`}
                         >
                           <CirclePlay size={25} />
                         </button>
 
                         {/* Inativar */}
                         <button
-                          onClick={() => updateStatus(morador.id, 'inativo')}
-                          disabled={cancelado || morador.status === 'inativo'}
+                          onClick={() => updateStatus(morador.id_usuario, 'Inativo')}
+                          disabled={cancelado || morador.situacao_cadastral === 'Inativo'}
                           title={cancelado ? 'Cancelamento é definitivo' : 'Inativar morador'}
-                          className={`transition-colors ${cancelado || morador.status === 'inativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#7B00FF] hover:text-zinc-600 cursor-pointer'}`}
+                          className={`transition-colors ${cancelado || morador.situacao_cadastral === 'Inativo' ? 'text-zinc-300 cursor-not-allowed' : 'text-[#7B00FF] hover:text-zinc-600 cursor-pointer'}`}
                         >
                           <CirclePause size={25} />
                         </button>
 
                         {/* Cancelar */}
                         <button
-                          onClick={() => pedirConfirmacaoCancelamento(morador.id, morador.nome)}
+                          onClick={() => pedirConfirmacaoCancelamento(morador.id_usuario, morador.nome)}
                           disabled={cancelado}
                           title={cancelado ? 'Já cancelado' : 'Cancelar morador'}
                           className={`transition-colors ${cancelado ? 'text-zinc-300 cursor-not-allowed' : 'text-[#7B00FF] hover:text-red-500 cursor-pointer'}`}
