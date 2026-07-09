@@ -81,7 +81,7 @@ export default function HomePorteiro() {
             onClick={() => setActiveTab('cadastrar')}
             className={`px-6 py-3 text-sm font-bold uppercase rounded-t-2xl transition-colors ${
               activeTab === 'cadastrar'
-                ? 'bg-[#741582] text-white'
+                ? 'bg-[#C500E1] text-white'
                 : 'bg-white text-zinc-700 border border-zinc-300 border-b-0'
             }`}
           >
@@ -249,6 +249,36 @@ export default function HomePorteiro() {
           </div>
           {/* ↑ fecha a Linha 2 */}
 
+          <div className="flex items-center justify-between mt-auto pt-6">
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-bold text-zinc-700 uppercase">
+                Retirada Urgente
+              </span>
+              <button
+                type="button"
+                onClick={() => setRetirarUrgencia(!retirarUrgencia)}
+                className={`w-11 h-6 rounded-full transition-colors relative flex-shrink-0 ${
+                  retirarUrgencia ? 'bg-[#C500E1]' : 'bg-zinc-300'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                    retirarUrgencia ? 'translate-x-5' : 'translate-x-0'
+                  }`}
+                />
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className="px-10 py-3 bg-[#C500E1] text-white rounded-xl font-bold uppercase hover:bg-[#5e1169] transition-colors"
+            >
+              Cadastrar
+            </button>
+
+          </div>
+          {/* ↑ fecha a Linha 3 */}
+
         </div> 
         {/* ↑ fecha o CARD */}
 
@@ -289,7 +319,7 @@ export default function HomePorteiro() {
                   type="button"
                   onClick={() => setTerceiros(!terceiros)}
                   className={`w-13 h-8 rounded-full transition-colors relative ${
-                    terceiros ? 'bg-[#741582]' : 'bg-zinc-300'
+                    terceiros ? 'bg-[#C500E1]' : 'bg-zinc-300'
                   }`}
                 >
                   <span
@@ -331,7 +361,7 @@ export default function HomePorteiro() {
 
                 <button
                   type="button"
-                  className="px-10 py-3 bg-[#741582] text-white rounded-xl font-bold uppercase text-lg"
+                  className="px-10 py-3 bg-[#C500E1] text-white rounded-xl font-bold uppercase text-lg hover:bg-[#5e1169] transition-colors"
                 >
                   Validar
                 </button>
