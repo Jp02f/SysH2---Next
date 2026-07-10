@@ -27,11 +27,12 @@ export default function Cadastro() {
   const [apartamentos, setApartamentos] = useState<Apartamento[]>([]);
   const [blocoSelecionado, setBlocoSelecionado] = useState('');
   const [apartamentoSelecionado, setApartamentoSelecionado] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
   const handleCadastro = async () => {
     // lógica de cadastro vem aqui depois
 
-    if (senha !== confirmarSenha) {
+    if (senha !== confirmarSenha) { 
         alert("As senhas não coincidem.");
         return;
     }
@@ -65,7 +66,9 @@ export default function Cadastro() {
     }   catch (error) {
         console.error(error);
         alert("Erro ao conectar com o servidor.");
-    } 
+    } finally {
+        setCarregando(false);
+    }
 
     };
 
@@ -218,7 +221,7 @@ export default function Cadastro() {
             onClick={handleCadastro}
             className="w-full bg-[#C500E1] text-white font-bold py-3 rounded-full hover:bg-[#3a006f] transition-colors shadow-md"
           >
-            CADASTRAR
+            {carregando ? 'Enviando...' : 'CADASTRAR'}
           </button>
 
           <p className="text-center text-zinc-600 text-sm">
