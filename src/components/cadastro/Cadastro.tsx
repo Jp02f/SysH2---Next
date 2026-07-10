@@ -37,7 +37,7 @@ export default function Cadastro() {
     }
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/usuarios/", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/usuarios/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export default function Cadastro() {
 
 
   useEffect(() => {
-  fetch('http://127.0.0.1:8000/api/blocos/')
+  fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blocos/`)
     .then((res) => res.json())
     .then((data) => setBlocos(data))
     .catch((err) => console.error('Erro ao buscar blocos:', err));
@@ -82,7 +82,7 @@ export default function Cadastro() {
     setApartamentos([]);
     return;
   }
-  fetch(`http://127.0.0.1:8000/api/apartamentos/?bloco=${blocoSelecionado}`)
+  fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/apartamentos/?bloco=${blocoSelecionado}`)
     .then((res) => res.json())
     .then((data) => setApartamentos(data))
     .catch((err) => console.error('Erro ao buscar apartamentos:', err));

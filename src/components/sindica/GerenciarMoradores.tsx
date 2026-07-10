@@ -49,7 +49,7 @@ export default function GerenciarMoradores() {
 
   const updateStatus = async (id: number, novoStatus: Status) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/usuarios/${id}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export default function GerenciarMoradores() {
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/usuarios/?tipo_usuario=1")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/usuarios/?tipo_usuario=1`)
         .then(res => res.json())
         .then(data => {
           console.log(data);
