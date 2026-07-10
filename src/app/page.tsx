@@ -56,7 +56,7 @@ export default function Login() {
   } catch (error) {
     console.error(error);
     setErro("Erro ao conectar com o servidor.");
-  } finaly {
+  } finally {
     setCarregando(false);
   }
 };
