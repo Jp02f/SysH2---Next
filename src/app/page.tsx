@@ -11,18 +11,19 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
   const handleLogin = async () => {
   setErro("");
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/login/", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email,
+        email, 
         senha,
       }),
     });
@@ -55,6 +56,8 @@ export default function Login() {
   } catch (error) {
     console.error(error);
     setErro("Erro ao conectar com o servidor.");
+  } finaly {
+    setCarregando(false);
   }
 };
 
@@ -124,9 +127,10 @@ export default function Login() {
           {/* Botão entrar */}
           <button
             onClick={handleLogin}
+            disabled={carregando}
             className="w-full bg-[#C500E1] text-white font-bold py-3 rounded-full hover:bg-[#3a006f] transition-colors shadow-md"
           >
-            ENTRAR
+            {carregando ? 'Conectando...' : 'ENTRAR'}
           </button>
 
           {/* Cadastro */}
