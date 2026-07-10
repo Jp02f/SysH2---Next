@@ -140,5 +140,8 @@ STATIC_URL = 'static/'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://sysh2.vercel.app",  # depois vamos trocar pelo domínio real da Vercel
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://sys-h2-next.*\.vercel\.app$",
 ]
