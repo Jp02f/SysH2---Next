@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { KeyRound, Building, Package } from 'lucide-react';
 import LogoIcon from '../logoicon';
 import Header from '../Header';
@@ -19,13 +19,6 @@ interface Encomenda {
   retirada_por: string | null;
 }
 
-interface UsuarioLogado {
-  id_usuario: number;
-  nome: string;
-  bloco: string | null;
-  apartamento: number | null;
-}
-
 function formatarData(data: string) {
   const [ano, mes, dia] = data.split('-');
   return `${dia}/${mes}/${ano}`;
@@ -36,20 +29,10 @@ function formatarHora(hora: string) {
 }
 
 export default function HomeMorador() {
-  const router = useRouter();
-  const [usuario, setUsuario] = useState<UsuarioLogado | null>(null);
+  const { usuario, carregando } = useAuthGuard();
   const [encomendas, setEncomendas] = useState<Encomenda[]>([]);
   const [tokenVisivel, setTokenVisivel] = useState<number | null>(null);
-  const [carregando, setCarregando] = useState(true);
-
-  useEffect(() => {
-    const dados = localStorage.getItem('usuario');
-    if (!dados) {
-      router.push('/');
-      return;
-    }
-    setUsuario(JSON.parse(dados));
-  }, [router]);
+  const [carregandoEncomendas, setCarregandoEncomendas] = useState(true);
 
   useEffect(() => {
     if (!usuario) return;
@@ -58,10 +41,10 @@ export default function HomeMorador() {
       .then((res) => res.json())
       .then((data) => setEncomendas(data))
       .catch((err) => console.error('Erro ao buscar encomendas:', err))
-      .finally(() => setCarregando(false));
+      .finally(() => setCarregandoEncomendas(false));
   }, [usuario]);
 
-  if (!usuario) {
+  if (carregando || !usuario) {
     return null;
   }
 
@@ -86,11 +69,11 @@ export default function HomeMorador() {
 
           {/* Lista de encomendas */}
           <div className="flex-1 overflow-y-auto flex flex-col gap-5 pr-1 pt-6">
-            {carregando && (
+            {carregandoEncomendas && (
               <p className="text-zinc-500 text-center py-10">Carregando encomendas...</p>
             )}
 
-            {!carregando && encomendas.length === 0 && (
+            {!carregandoEncomendas && encomendas.length === 0 && (
               <div className="flex-1 flex flex-col items-center justify-center gap-3 relative z-10">
                 <div className="w-20 h-20 rounded-full bg-[#7B00FF]/10 flex items-center justify-center">
                     <Package size={40} className="text-[#7B00FF]" />

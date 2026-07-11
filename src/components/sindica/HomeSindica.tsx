@@ -1,10 +1,18 @@
 'use client'
 import Header from '../Header';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { UserPlus, Users, FileText, Building } from 'lucide-react';
 import LogoIcon from '../logoicon';
 import Link from 'next/link';
 
 export default function HomeSindica() {
+  const { carregando } = useAuthGuard();
+
+  if (carregando) {
+    return null;
+  }
+
+
   return (
     <div className="h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">
       <Header />

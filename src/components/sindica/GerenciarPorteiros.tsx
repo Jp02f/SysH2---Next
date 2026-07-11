@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 import Header from '../Header';
 import { UserPlus, CirclePause, CirclePlay, CircleX, User, Mail, Phone, Plus, Search, ChevronDown } from 'lucide-react';
 
@@ -31,6 +32,8 @@ const porteirosIniciais = [
 ];
 
 export default function GerenciarPorteiros() {
+  const { carregando } = useAuthGuard();
+
   const [porteiros, setPorteiros] = useState(porteirosIniciais);
   const [filtro, setFiltro] = useState<'todos' | Status>('todos');
   const [busca, setBusca] = useState('');
@@ -73,6 +76,10 @@ export default function GerenciarPorteiros() {
     if (confirmacao.porteiroId !== null) updateStatus(confirmacao.porteiroId, 'cancelado');
     setConfirmacao({ visivel: false, porteiroId: null, nomePorteiro: '' });
   };
+
+   if (carregando) {
+    return null;
+  }
 
   return (
     <div className="h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">

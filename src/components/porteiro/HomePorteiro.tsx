@@ -1,5 +1,6 @@
 'use client'
 import { useState , useEffect } from 'react';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 import Header from '../Header';
 import { Minus, Plus, ScanBarcode, ChevronDown, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
@@ -33,6 +34,7 @@ interface UsuarioLogado {
 }
 
 export default function HomePorteiro() {
+  const { carregando } = useAuthGuard();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('cadastrar');
   const [showModal, setShowModal] = useState(false);
@@ -50,6 +52,7 @@ export default function HomePorteiro() {
   const [moradorSelecionado, setMoradorSelecionado] = useState('');
   const [observacao, setObservacao] = useState('');
   const [salvando, setSalvando] = useState(false);
+  
 
   function formatarDataHora(data: Date) {
     const dia = String(data.getDate()).padStart(2, '0');
@@ -178,6 +181,10 @@ export default function HomePorteiro() {
     setSalvando(false);
   }
 }
+
+ if (carregando) {
+    return null;
+  }
 
   return (
     <div className="h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">

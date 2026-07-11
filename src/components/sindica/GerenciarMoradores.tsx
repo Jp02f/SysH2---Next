@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 import Header from '../Header';
 import { Users, CirclePause, CirclePlay, CircleX, ChevronDown, Search, FileDown } from 'lucide-react';
 
@@ -30,6 +31,7 @@ interface Morador {
 }
 
 export default function GerenciarMoradores() {
+  const { carregando } = useAuthGuard();
   const [filtro, setFiltro] = useState<'todos' | Status>('todos');
   const [busca, setBusca] = useState('');
   const [moradores, setMoradores] = useState<Morador[]>([]);
@@ -123,7 +125,9 @@ export default function GerenciarMoradores() {
         .catch(err => console.error(err));
   }, []);
 
-
+  if (carregando) {
+    return null;
+  }
 
   return (
     <div className="h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">
