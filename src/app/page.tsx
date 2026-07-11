@@ -32,61 +32,62 @@ export default function Login() {
 
   return (
     <>
-      {/* ============ VERSÃO MOBILE ============ */}
-<div className="lg:hidden min-h-[100dvh] bg-white flex flex-col">
+ {/* ============ VERSÃO MOBILE ============ */}
+<div className="lg:hidden h-[100dvh] overflow-hidden bg-white">
   <main
     className="
-      min-h-[100dvh]
+      h-full
+      grid
+      grid-rows-[auto_minmax(0,42%)_1fr]
       bg-white
-      flex
-      flex-col
       pt-[env(safe-area-inset-top)]
       pb-[env(safe-area-inset-bottom)]
     "
   >
-    {/* Logo no topo */}
-    <div className="flex justify-center pt-8 pb-4 shrink-0">
+    {/* Logo */}
+    <div className="flex justify-center py-2">
       <Logo className="h-10 w-auto" />
     </div>
 
     {/* Ilustração */}
-    <div className="px-4 shrink-0">
+    <div className="relative mx-3 min-h-0 overflow-hidden rounded-t-3xl">
       <Image
-        src="/ilustracao-login.svg"
+        src="/ilustracao-login-mobile.png"
         alt="Ilustração de login"
-        width={500}
-        height={300}
+        fill
         priority
-        className="w-full h-auto rounded-3xl"
+        sizes="100vw"
+        className="object-cover object-center"
       />
     </div>
 
-    {/* Conteúdo do login */}
+    {/* Área do formulário */}
     <div
       className="
-        bg-white
-        rounded-t-[2.5rem]
-        -mt-6
-        flex-1
-        px-6
-        pt-8
-        pb-10
-        flex
-        flex-col
-        gap-5
         relative
         z-10
+        -mt-5
+        min-h-0
+        rounded-t-[2rem]
+        bg-white
+        px-5
+        pt-4
+        pb-4
+        flex
+        flex-col
+        justify-evenly
       "
     >
-      <h1 className="text-2xl font-bold text-[#4B0082]">
+      <h1 className="text-3xl leading-none font-bold text-[#4B0082]">
         Faça login
       </h1>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
+        {/* Email */}
         <div className="relative flex items-center">
           <Mail
-            size={20}
-            className="absolute left-4 text-[#4B0082]"
+            size={19}
+            className="pointer-events-none absolute left-4 text-[#4B0082]"
           />
 
           <input
@@ -98,27 +99,28 @@ export default function Login() {
               setErro('');
             }}
             className="
+              h-12
               w-full
-              bg-[#F5F5F5]
+              rounded-full
               border
               border-zinc-300
-              rounded-full
-              py-3
+              bg-[#F5F5F5]
               pl-12
               pr-4
               text-zinc-700
-              placeholder-zinc-400
-              focus:outline-none
+              placeholder:text-zinc-400
               focus:border-[#4B0082]
+              focus:outline-none
             "
           />
         </div>
 
-        <div className="flex flex-col gap-1">
+        {/* Senha */}
+        <div>
           <div className="relative flex items-center">
             <Lock
-              size={20}
-              className="absolute left-4 text-[#4B0082]"
+              size={19}
+              className="pointer-events-none absolute left-4 text-[#4B0082]"
             />
 
             <input
@@ -130,31 +132,26 @@ export default function Login() {
                 setErro('');
               }}
               className="
+                h-12
                 w-full
-                bg-[#F5F5F5]
+                rounded-full
                 border
                 border-zinc-300
-                rounded-full
-                py-3
+                bg-[#F5F5F5]
                 pl-12
                 pr-4
                 text-zinc-700
-                placeholder-zinc-400
+                placeholder:text-zinc-400
+                focus:border-[#4B0082]
                 focus:outline-none
-                focus:border-[#741582]
               "
             />
           </div>
 
-          <div className="flex justify-end pr-2">
+          <div className="flex justify-end pt-1 pr-2">
             <button
               type="button"
-              className="
-                text-sm
-                text-zinc-500
-                hover:text-[#741582]
-                transition-colors
-              "
+              className="text-sm text-zinc-500 hover:text-[#741582]"
             >
               Esqueceu a senha?
             </button>
@@ -163,49 +160,52 @@ export default function Login() {
       </div>
 
       {erro && (
-        <p className="text-red-500 text-sm text-center">
+        <p className="text-center text-sm text-red-500">
           {erro}
         </p>
       )}
 
+      {/* Entrar */}
       <button
         type="button"
         onClick={handleLogin}
         className="
+          h-12
           w-full
-          bg-[#C500E1]
-          text-white
-          font-bold
-          py-3
           rounded-full
-          hover:bg-[#3a006f]
-          transition-colors
+          bg-[#C500E1]
+          font-bold
+          text-white
           shadow-md
+          transition-colors
+          hover:bg-[#3a006f]
         "
       >
         ENTRAR
       </button>
 
+      {/* Divisor */}
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-zinc-200" />
+        <div className="h-px flex-1 bg-zinc-200" />
         <span className="text-sm text-zinc-400">ou</span>
-        <div className="flex-1 h-px bg-zinc-200" />
+        <div className="h-px flex-1 bg-zinc-200" />
       </div>
 
+      {/* Cadastro */}
       <button
         type="button"
         onClick={() => router.push('/cadastro')}
         className="
+          h-12
           w-full
+          rounded-full
           border-2
           border-[#C500E1]
-          text-[#C500E1]
           font-bold
-          py-3
-          rounded-full
+          text-[#C500E1]
+          transition-colors
           hover:bg-[#C500E1]
           hover:text-white
-          transition-colors
         "
       >
         Cadastrar-se
