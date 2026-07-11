@@ -7,6 +7,7 @@ interface UsuarioLogado {
   nome: string;
   bloco?: string | null;
   apartamento?: number | null;
+  tipo_usuario?: number;
 }
 
 export function useAuthGuard() {
