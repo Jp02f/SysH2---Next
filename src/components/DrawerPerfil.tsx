@@ -32,7 +32,7 @@ export default function DrawerPerfil({ aberto, onClose, usuario }: DrawerPerfilP
   if (!aberto) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end">
+    <div className="fixed inset-0 z-50 flex justify-start">
       {/* Overlay escurecido */}
       <div
         className="absolute inset-0 bg-black/40"
@@ -40,7 +40,7 @@ export default function DrawerPerfil({ aberto, onClose, usuario }: DrawerPerfilP
       />
 
       {/* Painel deslizante */}
-      <div className="relative w-[85%] max-w-sm h-full bg-white flex flex-col animate-in slide-in-from-right duration-200">
+      <div className="relative w-[85%] max-w-sm h-full bg-white flex flex-col animate-in slide-in-from-left duration-200">
 
         {/* Botão fechar */}
         <div className="flex justify-end p-4">
@@ -51,11 +51,11 @@ export default function DrawerPerfil({ aberto, onClose, usuario }: DrawerPerfilP
 
         {/* Avatar + nome */}
         <div className="flex flex-col items-center gap-2 px-6 pb-6">
-          <UserCircle size={90} className="text-[#4B0082]" strokeWidth={1} />
+          <UserCircle size={90} className="text-[#C500E1]" strokeWidth={1} />
           <p className="font-bold text-zinc-900 text-lg uppercase text-center">
             {usuario?.nome || 'Visitante'}
           </p>
-          <p className="text-[#7B00FF] text-sm font-medium">
+          <p className="text-[#4B0082] text-sm font-medium">
             {labelPerfil(usuario?.tipo_usuario)}
           </p>
         </div>
