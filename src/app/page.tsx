@@ -5,214 +5,243 @@ import Image from 'next/image';
 import { Mail, Lock } from 'lucide-react';
 import Logo from '@/components/logo';
 
-const usuarios = [
-  { email: 'sindica@gmail.com', senha: '123456', perfil: 'sindica' },
-  { email: 'porteiro@gmail.com', senha: '123456', perfil: 'porteiro' },
-  { email: 'morador@gmail.com', senha: '123456', perfil: 'morador' },
-];
-
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
-  const handleLogin = () => {
-    const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+  const handleLogin = async () => {
+    setErro("");
+    setCarregando(true);
 
-    if (!usuario) {
-      setErro('Email ou senha incorretos.');
-      return;
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          senha,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErro(data.erro || "Email ou senha incorretos.");
+        return;
+      }
+
+      localStorage.setItem('usuario', JSON.stringify(data));
+
+      switch (data.tipo_usuario) {
+        case 1:
+          router.push("/morador/home");
+          break;
+        case 2:
+          router.push("/porteiro/home");
+          break;
+        case 3:
+          router.push("/sindica/home");
+          break;
+        default:
+          setErro("Perfil de usuário inválido.");
+      }
+
+    } catch (error) {
+      console.error(error);
+      setErro("Erro ao conectar com o servidor.");
+    } finally {
+      setCarregando(false);
     }
-
-    if (usuario.perfil === 'sindica') router.push('/sindica/home');
-    if (usuario.perfil === 'porteiro') router.push('/porteiro/home');
-    if (usuario.perfil === 'morador') router.push('/morador/home');
   };
 
   return (
     <>
- {/* ============ VERSÃO MOBILE ============ */}
-<div className="lg:hidden h-[100dvh] overflow-hidden bg-white">
-  <main
-    className="
-      h-full
-      grid
-      grid-rows-[auto_minmax(0,42%)_1fr]
-      bg-white
-      pt-[env(safe-area-inset-top)]
-      pb-[env(safe-area-inset-bottom)]
-    "
-  >
-    {/* Logo */}
-    <div className="flex justify-center py-2">
-      <Logo className="h-10 w-auto" />
-    </div>
+      {/* ============ VERSÃO MOBILE ============ */}
+      <div className="lg:hidden h-[100dvh] overflow-hidden bg-white">
+        <main
+          className="
+            h-full
+            grid
+            grid-rows-[auto_minmax(0,42%)_1fr]
+            bg-white
+            pt-[env(safe-area-inset-top)]
+            pb-[env(safe-area-inset-bottom)]
+          "
+        >
+          {/* Logo */}
+          <div className="flex justify-center py-2">
+            <Logo className="h-10 w-auto" />
+          </div>
 
-    {/* Ilustração */}
-    <div className="relative mx-3 min-h-0 overflow-hidden rounded-t-3xl">
-      <Image
-        src="/ilustracao-login-mobile.png"
-        alt="Ilustração de login"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
-    </div>
-
-    {/* Área do formulário */}
-    <div
-      className="
-        relative
-        z-10
-        -mt-5
-        min-h-0
-        rounded-t-[2rem]
-        bg-white
-        px-5
-        pt-4
-        pb-4
-        flex
-        flex-col
-        justify-evenly
-      "
-    >
-      <h1 className="text-3xl leading-none font-bold text-[#4B0082]">
-        Faça login
-      </h1>
-
-      <div className="flex flex-col gap-3">
-        {/* Email */}
-        <div className="relative flex items-center">
-          <Mail
-            size={19}
-            className="pointer-events-none absolute left-4 text-[#4B0082]"
-          />
-
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setErro('');
-            }}
-            className="
-              h-12
-              w-full
-              rounded-full
-              border
-              border-zinc-300
-              bg-[#F5F5F5]
-              pl-12
-              pr-4
-              text-zinc-700
-              placeholder:text-zinc-400
-              focus:border-[#4B0082]
-              focus:outline-none
-            "
-          />
-        </div>
-
-        {/* Senha */}
-        <div>
-          <div className="relative flex items-center">
-            <Lock
-              size={19}
-              className="pointer-events-none absolute left-4 text-[#4B0082]"
+          {/* Ilustração */}
+          <div className="relative mx-3 min-h-0 overflow-hidden rounded-t-3xl">
+            <Image
+              src="/ilustracao-login-mobile.png"
+              alt="Ilustração de login"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center"
             />
+          </div>
 
-            <input
-              type="password"
-              placeholder="Senha"
-              value={senha}
-              onChange={(e) => {
-                setSenha(e.target.value);
-                setErro('');
-              }}
+          {/* Área do formulário */}
+          <div
+            className="
+              relative
+              z-10
+              -mt-5
+              min-h-0
+              rounded-t-[2rem]
+              bg-white
+              px-5
+              pt-4
+              pb-4
+              flex
+              flex-col
+              justify-evenly
+            "
+          >
+            <h1 className="text-3xl leading-none font-bold text-[#4B0082]">
+              Faça login
+            </h1>
+
+            <div className="flex flex-col gap-3">
+              {/* Email */}
+              <div className="relative flex items-center">
+                <Mail
+                  size={19}
+                  className="pointer-events-none absolute left-4 text-[#4B0082]"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setErro('');
+                  }}
+                  className="
+                    h-12
+                    w-full
+                    rounded-full
+                    border
+                    border-zinc-300
+                    bg-[#F5F5F5]
+                    pl-12
+                    pr-4
+                    text-zinc-700
+                    placeholder:text-zinc-400
+                    focus:border-[#4B0082]
+                    focus:outline-none
+                  "
+                />
+              </div>
+
+              {/* Senha */}
+              <div>
+                <div className="relative flex items-center">
+                  <Lock
+                    size={19}
+                    className="pointer-events-none absolute left-4 text-[#4B0082]"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Senha"
+                    value={senha}
+                    onChange={(e) => {
+                      setSenha(e.target.value);
+                      setErro('');
+                    }}
+                    className="
+                      h-12
+                      w-full
+                      rounded-full
+                      border
+                      border-zinc-300
+                      bg-[#F5F5F5]
+                      pl-12
+                      pr-4
+                      text-zinc-700
+                      placeholder:text-zinc-400
+                      focus:border-[#4B0082]
+                      focus:outline-none
+                    "
+                  />
+                </div>
+
+                <div className="flex justify-end pt-1 pr-2">
+                  <button
+                    type="button"
+                    className="text-sm text-zinc-500 hover:text-[#741582]"
+                  >
+                    Esqueceu a senha?
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {erro && (
+              <p className="text-center text-sm text-red-500">
+                {erro}
+              </p>
+            )}
+
+            {/* Entrar */}
+            <button
+              type="button"
+              onClick={handleLogin}
+              disabled={carregando}
               className="
                 h-12
                 w-full
                 rounded-full
-                border
-                border-zinc-300
-                bg-[#F5F5F5]
-                pl-12
-                pr-4
-                text-zinc-700
-                placeholder:text-zinc-400
-                focus:border-[#4B0082]
-                focus:outline-none
+                bg-[#C500E1]
+                font-bold
+                text-white
+                shadow-md
+                transition-colors
+                hover:bg-[#3a006f]
+                disabled:opacity-60
               "
-            />
-          </div>
+            >
+              {carregando ? 'Conectando...' : 'ENTRAR'}
+            </button>
 
-          <div className="flex justify-end pt-1 pr-2">
+            {/* Divisor */}
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-zinc-200" />
+              <span className="text-sm text-zinc-400">ou</span>
+              <div className="h-px flex-1 bg-zinc-200" />
+            </div>
+
+            {/* Cadastro */}
             <button
               type="button"
-              className="text-sm text-zinc-500 hover:text-[#741582]"
+              onClick={() => router.push('/cadastro')}
+              className="
+                h-12
+                w-full
+                rounded-full
+                border-2
+                border-[#C500E1]
+                font-bold
+                text-[#C500E1]
+                transition-colors
+                hover:bg-[#C500E1]
+                hover:text-white
+              "
             >
-              Esqueceu a senha?
+              Cadastrar-se
             </button>
           </div>
-        </div>
+        </main>
       </div>
-
-      {erro && (
-        <p className="text-center text-sm text-red-500">
-          {erro}
-        </p>
-      )}
-
-      {/* Entrar */}
-      <button
-        type="button"
-        onClick={handleLogin}
-        className="
-          h-12
-          w-full
-          rounded-full
-          bg-[#C500E1]
-          font-bold
-          text-white
-          shadow-md
-          transition-colors
-          hover:bg-[#3a006f]
-        "
-      >
-        ENTRAR
-      </button>
-
-      {/* Divisor */}
-      <div className="flex items-center gap-3">
-        <div className="h-px flex-1 bg-zinc-200" />
-        <span className="text-sm text-zinc-400">ou</span>
-        <div className="h-px flex-1 bg-zinc-200" />
-      </div>
-
-      {/* Cadastro */}
-      <button
-        type="button"
-        onClick={() => router.push('/cadastro')}
-        className="
-          h-12
-          w-full
-          rounded-full
-          border-2
-          border-[#C500E1]
-          font-bold
-          text-[#C500E1]
-          transition-colors
-          hover:bg-[#C500E1]
-          hover:text-white
-        "
-      >
-        Cadastrar-se
-      </button>
-    </div>
-  </main>
-</div>
 
       {/* ============ VERSÃO DESKTOP ============ */}
       <div className="hidden lg:flex h-screen overflow-hidden bg-[#F1F1EF] items-center justify-center">
@@ -273,9 +302,10 @@ export default function Login() {
 
             <button
               onClick={handleLogin}
+              disabled={carregando}
               className="w-full bg-[#C500E1] text-white font-bold py-3 rounded-full hover:bg-[#3a006f] transition-colors shadow-md"
             >
-              ENTRAR
+              {carregando ? 'Conectando...' : 'ENTRAR'}
             </button>
 
             <p className="text-center text-zinc-600 text-sm">
