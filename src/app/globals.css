@@ -1,51 +1,47 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #000000;
   --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-roboto-flex);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: #000000;
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overscroll-behavior-y: none;
 }
 
 /* ==================================================== */
-/* PERSONALIZAÇÃO DA BARRA DE ROLAGEM (SCROLLBAR)       */
+/* PERSONALIZAÇÃO DA BARRA DE ROLAGEM                    */
 /* ==================================================== */
 
-/* Deixa a barra mais fina */
 ::-webkit-scrollbar {
-  width: 8px; 
+  width: 8px;
 }
 
-/* Fundo da barra invisível para não cobrir o canto roxo */
 ::-webkit-scrollbar-track {
-  background: transparent; 
+  background: transparent;
 }
 
-/* Estiliza a barrinha cinza que o usuário puxa */
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d8; 
-  border-radius: 10px; 
+  background: #d4d4d8;
+  border-radius: 10px;
 }
 
-/* Deixa a barrinha um pouco mais escura ao passar o mouse */
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa; 
+  background: #a1a1aa;
 }
