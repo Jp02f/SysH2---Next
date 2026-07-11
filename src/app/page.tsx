@@ -33,23 +33,11 @@ export default function Login() {
   return (
     <>
       {/* ============ VERSÃO MOBILE ============ */}
-      {/* ============ VERSÃO MOBILE ============ */}
-<div
-  className="
-    lg:hidden
-    min-h-[100dvh]
-    bg-black
-    flex
-    flex-col
-    p-[6px]
-  "
->
+<div className="lg:hidden min-h-[100dvh] bg-white flex flex-col">
   <main
     className="
-      min-h-[calc(100dvh-12px)]
+      min-h-[100dvh]
       bg-white
-      rounded-[2rem]
-      overflow-hidden
       flex
       flex-col
       pt-[env(safe-area-inset-top)]
