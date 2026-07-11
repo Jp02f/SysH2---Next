@@ -27,6 +27,11 @@ interface Morador {
   nome: string;
 }
 
+interface UsuarioLogado {
+  id_usuario: number;
+  nome: string;
+}
+
 export default function HomePorteiro() {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('cadastrar');
@@ -41,6 +46,10 @@ export default function HomePorteiro() {
   const [apartamentoSelecionado, setApartamentoSelecionado] = useState('');
   const [dataHora, setDataHora] = useState('');
   const [retirarUrgencia, setRetirarUrgencia] = useState(false);
+  const [codigoRastreio, setCodigoRastreio] = useState('');
+  const [moradorSelecionado, setMoradorSelecionado] = useState('');
+  const [observacao, setObservacao] = useState('');
+  const [salvando, setSalvando] = useState(false);
 
   function formatarDataHora(data: Date) {
     const dia = String(data.getDate()).padStart(2, '0');
@@ -84,6 +93,91 @@ export default function HomePorteiro() {
   useEffect(() => {
   setDataHora(formatarDataHora(new Date()));
   }, []);
+
+
+  async function criarTokenComRetry(tentativas = 3): Promise<{ id_token: number; token: string } | null> {
+  for (let i = 0; i < tentativas; i++) {
+    const tokenGerado = String(Math.floor(100000 + Math.random() * 900000));
+    const resToken = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tokens/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: tokenGerado }),
+    });
+
+    if (resToken.ok) {
+      return await resToken.json();
+    }
+  }
+  return null;
+}
+
+
+  async function handleCadastrar() {
+  if (!codigoRastreio || !blocoSelecionado || !apartamentoSelecionado || !moradorSelecionado) {
+    alert('Preencha todos os campos obrigatórios antes de cadastrar.');
+    return;
+  }
+
+  setSalvando(true);
+
+  try {
+    const dadosPorteiro = localStorage.getItem('usuario');
+    const porteiro: UsuarioLogado | null = dadosPorteiro ? JSON.parse(dadosPorteiro) : null;
+
+    // 1. Gera e cria o Token (com retry em caso de colisão)
+    const tokenCriado = await criarTokenComRetry();
+
+    if (!tokenCriado) {
+      alert('Erro ao gerar token da encomenda. Tente novamente.');
+      return;
+    }
+
+    // 2. Cria a Encomenda usando o token gerado
+    const agora = new Date();
+    const dataFormatada = agora.toISOString().split('T')[0];
+    const horaFormatada = agora.toTimeString().slice(0, 8);
+
+    const resEncomenda = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/encomendas/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        codigo_rastreio: codigoRastreio,
+        quantidade: quantity,
+        observacao: observacao || null,
+        retirar_urgencia: retirarUrgencia,
+        data_recebimento: dataFormatada,
+        hora_recebimento: horaFormatada,
+        id_token: tokenCriado.id_token,
+        id_usuario: moradorSelecionado,
+        id_porteiro_cadastro: porteiro ? porteiro.id_usuario : null,
+      }),
+    });
+
+    if (!resEncomenda.ok) {
+      const erro = await resEncomenda.json();
+      console.error(erro);
+      alert('Erro ao cadastrar encomenda.');
+      return;
+    }
+
+    alert('Encomenda cadastrada com sucesso!');
+
+    // Reseta o formulário
+    setCodigoRastreio('');
+    setBlocoSelecionado('');
+    setApartamentoSelecionado('');
+    setMoradorSelecionado('');
+    setObservacao('');
+    setQuantity(1);
+    setRetirarUrgencia(false);
+
+  } catch (error) {
+    console.error(error);
+    alert('Erro ao conectar com o servidor.');
+  } finally {
+    setSalvando(false);
+  }
+}
 
   return (
     <div className="h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">
@@ -136,6 +230,8 @@ export default function HomePorteiro() {
               <div className="relative">
                 <input
                   type="text"
+                  value={codigoRastreio}
+                  onChange={(e) => setCodigoRastreio(e.target.value)}
                   placeholder=""
                   className="w-full border border-zinc-300 rounded-2xl px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-[#741582] bg-white text-zinc-900"
                 />
@@ -191,15 +287,17 @@ export default function HomePorteiro() {
                   Morador
               </label>
               <div className="relative">
-              <select
-                className="w-full appearance-none border border-zinc-300 rounded-2xl px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-[#741582] bg-white text-zinc-900 h-[42px]">
+                <select
+                  value={moradorSelecionado}
+                  onChange={(e) => setMoradorSelecionado(e.target.value)}
+                  className="w-full appearance-none border border-zinc-300 rounded-2xl px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-[#741582] bg-white text-zinc-900 h-[42px]">
                   <option value="">Selecione um morador</option>
                   {moradores.map((morador) => (
-                  <option key={morador.id_usuario} value={morador.id_usuario}>
-                  {morador.nome}
-                  </option>
+                    <option key={morador.id_usuario} value={morador.id_usuario}>
+                      {morador.nome}
+                    </option>
                   ))}
-              </select>
+                </select>
                 <ChevronDown size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#000000] pointer-events-none" />
               </div>
             </div>
@@ -246,6 +344,8 @@ export default function HomePorteiro() {
                   Observação
               </label>
               <textarea
+                value={observacao}
+                onChange={(e) => setObservacao(e.target.value)}
                 placeholder=""
                 className="border border-zinc-300 rounded-2xl px-4 py-2 h-32 resize-none focus:outline-none focus:ring-2 focus:ring-[#741582] bg-white text-zinc-900"
               />
@@ -288,9 +388,11 @@ export default function HomePorteiro() {
 
             <button
               type="button"
-              className="px-10 py-3 bg-[#C500E1] text-white rounded-xl font-bold uppercase hover:bg-[#5e1169] transition-colors"
+              onClick={handleCadastrar}
+              disabled={salvando}
+              className="px-10 py-3 bg-[#C500E1] text-white rounded-xl font-bold uppercase hover:bg-[#5e1169] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Cadastrar
+              {salvando ? 'Salvando...' : 'Cadastrar'}
             </button>
 
           </div>
@@ -319,7 +421,7 @@ export default function HomePorteiro() {
             </h2>
 
             {/* Retirado por terceiros */}
-            <div className="mb-">
+            <div className="mb-4">
               <label className="text-sm font-bold text-zinc-700 uppercase block mb-1">
                 Retirado por Terceiros?
               </label>

@@ -51,4 +51,7 @@ class LoginView(APIView):
             "nome": usuario.nome,
             "tipo_usuario": usuario.tipo_usuario,
             "situacao_cadastral": usuario.situacao_cadastral,
+            "id_apartamento": usuario.id_apartamento.id_apartamento if usuario.id_apartamento else None,
+            "apartamento": usuario.id_apartamento.apartamento if usuario.id_apartamento else None,
+            "bloco": usuario.id_apartamento.id_bloco.bloco if usuario.id_apartamento else None,
         })

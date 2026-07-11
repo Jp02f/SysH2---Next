@@ -36,6 +36,8 @@ export default function Login() {
       return;
     }
 
+    localStorage.setItem('usuario', JSON.stringify(data));
+
     switch (data.tipo_usuario) {
       case 1:
         router.push("/morador/home");

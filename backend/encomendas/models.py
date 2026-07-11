@@ -4,7 +4,7 @@ from authentication.models import Usuario
 
 class Token(models.Model):
     id_token = models.AutoField(primary_key=True)
-    token = models.CharField(max_length=6)
+    token = models.CharField(max_length=6, unique=True)
 
     class Meta:
         db_table = 'token'
@@ -20,6 +20,10 @@ class Encomenda(models.Model):
     )
     id_usuario = models.ForeignKey(
         Usuario, on_delete=models.CASCADE, db_column='id_usuario', related_name='encomendas'
+    )
+    id_porteiro_cadastro = models.ForeignKey(
+        Usuario, on_delete=models.SET_NULL, null=True, blank=True,
+        db_column='id_porteiro_cadastro', related_name='encomendas_cadastradas'
     )
     data_recebimento = models.DateField()
     hora_recebimento = models.TimeField()
