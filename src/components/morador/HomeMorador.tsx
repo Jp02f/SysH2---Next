@@ -70,8 +70,7 @@ export default function HomeMorador() {
       <Header homeHref="/morador/home" />
 
       <main className="flex-1 px-6 pb-6 pt-6 overflow-hidden flex flex-col">
-        <div className="border border-zinc-200 rounded-[1.5rem] p-8 lg:p-10 w-full h-full flex flex-col bg-white overflow-hidden">
-
+        <div className="border border-zinc-200 rounded-[1.5rem] p-8 lg:p-10 w-full h-full flex flex-col bg-transparent overflow-hidden">
           {/* Boas-vindas */}
           <div className="flex items-start gap-4 mb-8">
             <div className="text-[#3A1067] mt-1">
@@ -86,7 +85,7 @@ export default function HomeMorador() {
           </div>
 
           {/* Lista de encomendas */}
-          <div className="flex-1 overflow-y-auto flex flex-col gap-5 pr-1">
+          <div className="flex-1 overflow-y-auto flex flex-col gap-5 pr-1 pt-6">
             {carregando && (
               <p className="text-zinc-500 text-center py-10">Carregando encomendas...</p>
             )}
@@ -106,22 +105,20 @@ export default function HomeMorador() {
             {encomendas.map((encomenda) => {
               const retirada = !!encomenda.retirada_data;
               return (
-                <div key={encomenda.id_encomendas} className="relative">
+                <div key={encomenda.id_encomendas} className="relative overflow-visible">
                   {encomenda.retirar_urgencia && !retirada && (
-                    <span className="absolute -top-3 left-6 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-md z-10">
+                    <span className="absolute -top-3 left-6 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-2xl z-10">
                       URGENTE
                     </span>
                   )}
 
-                  <div className="border border-zinc-200 rounded-2xl px-6 py-5 flex items-center justify-between shadow-sm">
+                  <div className="border border-zinc-200 rounded-2xl px-6 py-5 flex items-center justify-between shadow-sm bg-white/65 backdrop-blur-sm">
                     <div className="flex items-center gap-5">
-                      <svg
-                        width="56" height="56" viewBox="0 0 24 24" fill="none"
-                        stroke={retirada ? '#A1A1AA' : '#7B00FF'} strokeWidth="1.5"
-                      >
-                        <path d="M21 8l-9-5-9 5v8l9 5 9-5V8z" />
-                        <path d="M3 8l9 5 9-5M12 13v8" />
-                      </svg>
+                      <Package
+                        size={56}
+                        className={retirada ? 'text-zinc-400' : 'text-[#C500E1]'}
+                        strokeWidth={1.5}
+                        />
                       <div>
                         <p className={`font-black text-lg ${retirada ? 'text-zinc-400' : 'text-zinc-900'}`}>
                           {encomenda.codigo_rastreio}
@@ -147,7 +144,7 @@ export default function HomeMorador() {
                         onClick={() =>
                           setTokenVisivel(tokenVisivel === encomenda.id_encomendas ? null : encomenda.id_encomendas)
                         }
-                        className="bg-[#7B00FF] text-white font-bold px-6 py-3 rounded-full hover:bg-[#5e00c2] transition-colors"
+                        className="bg-[#C500E1] text-white font-bold px-6 py-3 rounded-full hover:bg-[#5e00c2] transition-colors"
                       >
                         {tokenVisivel === encomenda.id_encomendas ? (
                           <span className="flex items-center gap-2">
