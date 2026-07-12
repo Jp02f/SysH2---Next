@@ -40,9 +40,21 @@ class LoginView(APIView):
                 status=400
             )
 
-        if usuario.situacao_cadastral != "Ativo":
+        if usuario.situacao_cadastral == "Pendente":
             return Response(
-                {"erro": "Seu cadastro ainda não foi aprovado pela síndica."},
+            {"erro": "Seu cadastro ainda não foi aprovado pela síndica."},
+                status=403
+            )
+
+        if usuario.situacao_cadastral == "Inativo":
+            return Response(
+                {"erro": "Sua conta está inativa. Entre em contato com a síndica."},
+                status=403
+            )
+
+        if usuario.situacao_cadastral == "Cancelado":
+            return Response(
+                {"erro": "Seu acesso foi cancelado permanentemente."},
                 status=403
             )
 

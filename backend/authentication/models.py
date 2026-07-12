@@ -18,7 +18,15 @@ class Usuario(models.Model):
     telefone = models.CharField(max_length=18)
     tipo_usuario = models.IntegerField(choices=TIPO_USUARIO_CHOICES)
     senha = models.CharField(max_length=255)
-    situacao_cadastral = models.CharField(max_length=50)
+    
+    SITUACAO_CHOICES = [
+    ('Pendente', 'Pendente'),
+    ('Ativo', 'Ativo'),
+    ('Inativo', 'Inativo'),
+    ('Cancelado', 'Cancelado'),
+]
+
+    situacao_cadastral = models.CharField(max_length=20, choices=SITUACAO_CHOICES, default='Pendente')
 
     class Meta:
         db_table = 'usuario'

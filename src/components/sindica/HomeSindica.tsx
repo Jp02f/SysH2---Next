@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../Header';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { UserPlus, Users, FileText, Building, UserCircle, Bell, ChevronRight } from 'lucide-react';
@@ -11,6 +11,18 @@ import DrawerPerfil from '../DrawerPerfil';
 export default function HomeSindica() {
   const { usuario, carregando } = useAuthGuard();
   const [drawerAberto, setDrawerAberto] = useState(false);
+  const [pendentesCount, setPendentesCount] = useState(0);
+
+  useEffect(() => {
+  fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/usuarios/?tipo_usuario=1`)
+    .then((res) => res.json())
+    .then((data) => {
+      const pendentes = data.filter((u: any) => u.situacao_cadastral === 'Pendente');
+      setPendentesCount(pendentes.length);
+    })
+    .catch((err) => console.error('Erro ao buscar moradores pendentes:', err));
+  }, []);
+
 
   if (carregando || !usuario) {
     return null;
@@ -37,6 +49,8 @@ export default function HomeSindica() {
     },
   ];
 
+  
+
   return (
     <>
       {/* ============ VERSÃO MOBILE ============ */}
@@ -54,16 +68,30 @@ export default function HomeSindica() {
         </header>
 
         {/* Card de boas-vindas */}
-        <div className="mx-4 mt-4 bg-white rounded-2xl shadow-sm border-l-4 border-[#C500E1] p-4 flex items-start gap-3">
-          <div className="w-12 h-12 rounded-full bg-[#C500E1]/10 flex items-center justify-center flex-shrink-0">
-            <Building size={24} className="text-[#C500E1]" />
+        <div className="mx-4 mt-4 rounded-3xl bg-gradient-to-br from-[#7B00FF] to-[#C500E1] p-6 relative overflow-hidden">
+          <div className="flex items-center gap-3 relative z-10">
+            <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+              <Building size={24} className="text-white" />
+            </div>
+            <div className="flex-1">
+              <h1 className="text-white text-2xl font-black">Olá, Síndico(a)!</h1>
+              <p className="text-white/90 text-sm mt-1">
+                Navegue pelos módulos abaixo para acessar suas funcionalidades.
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-lg font-black text-[#4B0082]">Olá, Síndico(a)!</h1>
-            <p className="text-sm text-zinc-500">
-              Navegue pelos módulos abaixo para acessar suas funcionalidades.
-            </p>
-          </div>
+
+          
+            <div className="mt-4 bg-white/15 backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-3 relative z-10">
+              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                <Users size={18} className="text-white" />
+              </div>
+              <p className="text-white text-sm">
+                <span className="font-black text-base">{pendentesCount}</span>{' '}
+                {pendentesCount === 1 ? 'cadastro pendente' : 'cadastros pendentes'} de aprovação
+              </p>
+            </div>
+          
         </div>
 
         {/* Lista de módulos */}
@@ -104,13 +132,28 @@ export default function HomeSindica() {
 
           <div className="border border-zinc-300 rounded-[1.5rem] p-4 lg:p-10 w-full h-full flex flex-col bg-transparent">
             {/* Bloco de Boas-Vindas */}
-            <div className="flex items-center gap-4 mb-4 lg:mb-10">
+            
+          <div className="flex items-center justify-between gap-4 mb-4 lg:mb-10">
+            <div className="flex items-center gap-4">
               <Building size={56} className="text-[#741582] lg:w-14 lg:h-14 w-8 h-8" />
               <div>
                 <h1 className="text-2xl lg:text-4xl font-black text-[#741582]">Olá, Síndico(a)!</h1>
                 <p className="text-[#3A1067] font-medium text-sm lg:text-lg">Navegue pelos módulos abaixo para acessar suas funcionalidades.</p>
               </div>
             </div>
+
+            
+              <div className="hidden lg:flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-3">
+                <div className="w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center flex-shrink-0">
+                  <Users size={18} className="text-white" />
+                </div>
+                <p className="text-amber-800 text-sm">
+                  <span className="font-black text-base">{pendentesCount}</span>{' '}
+                  {pendentesCount === 1 ? 'cadastro pendente' : 'cadastros pendentes'}
+                </p>
+              </div>
+            
+          </div>
 
             {/* Grid de Botões Principais */}
             <div className="flex flex-col gap-2 lg:gap-4">

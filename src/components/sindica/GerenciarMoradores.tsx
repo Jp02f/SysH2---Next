@@ -4,15 +4,16 @@ import { useAuthGuard } from '@/hooks/useAuthGuard';
 import Header from '../Header';
 import { Users, CirclePause, CirclePlay, CircleX, ChevronDown, Search, FileDown } from 'lucide-react';
 
-type Status = "Ativo" | "Inativo" | "Cancelado";
+type Status = "Pendente" | "Ativo" | "Inativo" | "Cancelado";
 
 function StatusBadge({ status }: { status: Status }) {
   const styles = {
+    Pendente: 'bg-amber-100 text-amber-800 border border-amber-300',
     Ativo: 'bg-green-100 text-green-800 border border-green-300',
     Inativo: 'bg-blue-100 text-blue-800 border border-blue-300',
     Cancelado: 'bg-red-100 text-red-800 border border-red-300'
   };
-  const labels = { Ativo: 'Ativo', Inativo: 'Inativo', Cancelado: 'Cancelado' };
+  const labels = { Pendente: 'Pendente', Ativo: 'Ativo', Inativo: 'Inativo', Cancelado: 'Cancelado' };
   return (
     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${styles[status]}`}>
       {labels[status]}
@@ -27,7 +28,7 @@ interface Morador {
   telefone: string;
   bloco: string;
   apartamento: number;
-  situacao_cadastral: "Ativo" | "Inativo" | "Cancelado";
+  situacao_cadastral: "Pendente" | "Ativo" | "Inativo" | "Cancelado";
 }
 
 export default function GerenciarMoradores() {
@@ -47,7 +48,12 @@ export default function GerenciarMoradores() {
         filtro === 'todos' ||
       m.situacao_cadastral.toLowerCase() === filtro
     )
-    .filter(m => m.nome.toLowerCase().includes(busca.toLowerCase()));
+    .filter(m => m.nome.toLowerCase().includes(busca.toLowerCase()))
+    .sort((a, b) => {
+    if (a.situacao_cadastral === 'Pendente' && b.situacao_cadastral !== 'Pendente') return -1;
+    if (a.situacao_cadastral !== 'Pendente' && b.situacao_cadastral === 'Pendente') return 1;
+    return 0;
+    });
 
   const updateStatus = async (id: number, novoStatus: Status) => {
     try {
@@ -184,6 +190,7 @@ export default function GerenciarMoradores() {
                 className="appearance-none bg-white border border-zinc-300 rounded-[15px] py-2 pl-4 pr-10 text-zinc-700 font-medium focus:outline-none focus:border-[#7B00FF] cursor-pointer shadow-sm w-32"
               >
                 <option value="todos">Todos</option>
+                <option value="pendente">Pendente</option>
                 <option value="ativo">Ativo</option>
                 <option value="inativo">Inativo</option>
                 <option value="cancelado">Cancelado</option>
