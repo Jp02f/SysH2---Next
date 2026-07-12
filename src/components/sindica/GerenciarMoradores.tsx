@@ -146,10 +146,10 @@ export default function GerenciarMoradores() {
   return (
     <>
       {/* ============ VERSÃO MOBILE ============ */}
-      <div className="lg:hidden min-h-screen bg-[#F8F9FA] flex flex-col">
+      <div className="lg:hidden h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">
 
         {/* Header mobile */}
-        <header className="flex items-center justify-between px-4 py-3 bg-white border-b border-zinc-100">
+        <header className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-white/70 backdrop-blur-md border-b border-zinc-100 z-20 relative">
           <button type="button" onClick={() => setDrawerAberto(true)}>
               <UserCircle size={32} className="text-[#4B0082]" />
           </button>
@@ -160,7 +160,7 @@ export default function GerenciarMoradores() {
         </header>
 
         {/* Título */}
-        <div className="flex items-center gap-3 px-4 pt-4">
+        <div className="flex-shrink-0 flex items-center gap-3 px-4 pt-4 bg-[#F8F9FA]/70 backdrop-blur-md z-20 relative">
           <div className="w-12 h-12 rounded-full bg-[#C500E1]/10 flex items-center justify-center flex-shrink-0">
             <Users size={22} className="text-[#C500E1]" />
           </div>
@@ -171,7 +171,7 @@ export default function GerenciarMoradores() {
         </div>
 
         {/* Filtros */}
-        <div className="flex gap-2 px-4 mt-4">
+        <div className="flex-shrink-0 flex gap-2 px-4 mt-4 pb-4 bg-[#F8F9FA]/70 backdrop-blur-md z-20 relative">
           <div className="relative">
             <select
               value={filtro}
@@ -207,7 +207,7 @@ export default function GerenciarMoradores() {
         </div>
 
         {/* Lista de moradores */}
-        <div className="flex-1 px-4 py-4 flex flex-col gap-3">
+        <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3">
           {moradoresFiltrados.length === 0 && (
             <p className="text-zinc-500 text-center py-10 text-sm">Nenhum morador encontrado.</p>
           )}
