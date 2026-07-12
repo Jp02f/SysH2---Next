@@ -43,6 +43,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
         validated_data['senha'] = make_password(validated_data['senha'])
 
         validated_data['tipo_usuario'] = 1
-        validated_data['situacao_cadastral'] = 'Inativo'
+        validated_data['situacao_cadastral'] = 'Pendente'
         
         return Usuario.objects.create(**validated_data)
