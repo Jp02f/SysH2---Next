@@ -3,6 +3,7 @@ import { useState , useEffect } from 'react';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
 import Header from '../Header';
 import { Minus, Plus, ScanBarcode, ChevronDown, ShieldCheck } from 'lucide-react';
+import { getIniciais } from '@/lib/iniciais';
 import Link from 'next/link';
 import { Roboto_Flex } from 'next/font/google';
 

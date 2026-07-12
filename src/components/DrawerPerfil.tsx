@@ -1,5 +1,6 @@
 'use client'
-import { X, UserCircle, Lock, LogOut } from 'lucide-react';
+import { X, Lock, LogOut } from 'lucide-react';
+import { getIniciais } from '@/lib/iniciais';
 import { useRouter } from 'next/navigation';
 import Logo from './logo';
 
@@ -51,7 +52,9 @@ export default function DrawerPerfil({ aberto, onClose, usuario }: DrawerPerfilP
 
         {/* Avatar + nome */}
         <div className="flex flex-col items-center gap-2 px-6 pb-6">
-          <UserCircle size={90} className="text-[#C500E1]" strokeWidth={1} />
+          <div className="w-20 h-20 rounded-full bg-[#C500E1]/10 flex items-center justify-center font-black text-[#C500E1] text-2xl">
+            {usuario ? getIniciais(usuario.nome) : '?'}
+          </div>
           <p className="font-bold text-zinc-900 text-lg uppercase text-center">
             {usuario?.nome || 'Visitante'}
           </p>

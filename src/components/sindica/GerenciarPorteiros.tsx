@@ -4,9 +4,9 @@ import { useAuthGuard } from '@/hooks/useAuthGuard';
 import Header from '../Header';
 import DrawerPerfil from '../DrawerPerfil';
 import Logo from '../logo';
+import { getIniciais } from '@/lib/iniciais';
 import {
-  UserPlus, CirclePause, CirclePlay, CircleX, User, Mail, Phone, Plus, Search, ChevronDown,
-  UserCircle, Bell
+  UserPlus, CirclePause, CirclePlay, CircleX, User, Mail, Phone, Plus, Search, ChevronDown, Bell
 } from 'lucide-react';
 
 type Status = 'ativo' | 'inativo' | 'cancelado';
@@ -100,9 +100,11 @@ export default function GerenciarPorteiros() {
       <div className="lg:hidden h-screen bg-[#F8F9FA] flex flex-col overflow-hidden">
 
         {/* Header mobile */}
-        <header className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-white/70 backdrop-blur-md border-b border-zinc-100 z-20 relative">
+        <header className="flex items-center justify-between px-4 py-3 bg-white border-b border-zinc-100">
           <button type="button" onClick={() => setDrawerAberto(true)}>
-            <UserCircle size={32} className="text-[#4B0082]" />
+            <div className="w-9 h-9 rounded-full bg-[#C500E1]/10 flex items-center justify-center font-black text-[#4B0082] text-sm">
+              {getIniciais(usuario.nome)}
+            </div>
           </button>
           <Logo className="h-7 w-auto" />
           <button type="button" className="relative">

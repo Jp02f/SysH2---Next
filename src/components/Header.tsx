@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Bell, MoonStar, UserCircle, LogOut } from 'lucide-react';
+import { Bell, MoonStar, LogOut } from 'lucide-react';
+import { getIniciais } from '@/lib/iniciais';
 import Logo from './logo';
 import { Roboto_Flex } from 'next/font/google';
 
@@ -62,7 +63,9 @@ export default function Header({ homeHref = '/' }: { homeHref?: string }) {
           </button>
         </div>
         <div className="flex items-center gap-3">
-          <UserCircle size={40} className="text-[#4B0082] flex-shrink-0 lg:w-10 lg:h-10 w-7 h-7" />
+          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#C500E1]/10 flex items-center justify-center flex-shrink-0 font-black text-[#4B0082] text-sm lg:text-base">
+            {usuario ? getIniciais(usuario.nome) : '?'}
+          </div>
           <div className="flex flex-col items-center text-center">
             <p className={`${robotoFlex.className} text-sm lg:text-base font-black text-zinc-800 leading-tight max-w-[140px] truncate`}>
               {usuario ? usuario.nome.split(' ').slice(0, 2).join(' ').toUpperCase() : 'Visitante'}

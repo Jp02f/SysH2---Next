@@ -2,6 +2,7 @@
 import Header from '../Header';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { UserPlus, Users, FileText, Building } from 'lucide-react';
+import { getIniciais } from '@/lib/iniciais';
 import LogoIcon from '../logoicon';
 import Link from 'next/link';
 

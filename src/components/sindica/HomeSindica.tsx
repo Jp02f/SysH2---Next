@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import Header from '../Header';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
-import { UserPlus, Users, FileText, Building, UserCircle, Bell, ChevronRight } from 'lucide-react';
+import { UserPlus, Users, FileText, Building, Bell, ChevronRight } from 'lucide-react';
+import { getIniciais } from '@/lib/iniciais';
 import LogoIcon from '../logoicon';
 import Logo from '../logo';
 import Link from 'next/link';
@@ -59,7 +60,9 @@ export default function HomeSindica() {
         {/* Header mobile */}
         <header className="flex items-center justify-between px-4 py-3 bg-white border-b border-zinc-100">
           <button type="button" onClick={() => setDrawerAberto(true)}>
-            <UserCircle size={32} className="text-[#4B0082]" />
+            <div className="w-9 h-9 rounded-full bg-[#C500E1]/10 flex items-center justify-center font-black text-[#4B0082] text-sm">
+              {getIniciais(usuario.nome)}
+            </div>
           </button>
           <Logo className="h-7 w-auto" />
           <button type="button" className="relative">
